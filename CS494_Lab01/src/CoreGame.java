@@ -36,23 +36,25 @@ public class CoreGame {
         for (Question question : questions) {
             questionSet.add(question);
         }
-        Random random = new Random();
 
         HashSet<String> usedMoveTurn = new HashSet<>();
         ArrayList<String> currentPlayers = new ArrayList<>(userNames);
         Integer currentTurnNo = 0;
-        while (currentPlayers.size() > 1 && questionSet.size() > 0) {
+        Question currentQuestion = null;
+        while (currentPlayers.size() >= 1 && questionSet.size() > 0) {
             Integer playerIdx = currentTurnNo % currentPlayers.size();
             String currentPlayerName = currentPlayers.get(playerIdx);
             System.out.println("Turn " + currentTurnNo + " of player " + currentPlayerName);
 
-            Question question = questionSet.pollRandom(random);
+            if (currentQuestion == null) {
+                currentQuestion = questionSet.pollRandom(new Random());
+            }
 
-            System.out.println(question.getQuestion());
-            System.out.println("a. " + question.getAnswers().get("a"));
-            System.out.println("b. " + question.getAnswers().get("b"));
-            System.out.println("c. " + question.getAnswers().get("c"));
-            System.out.println("d. " + question.getAnswers().get("d"));
+            System.out.println(currentQuestion.getQuestion());
+            System.out.println("a. " + currentQuestion.getAnswers().get("a"));
+            System.out.println("b. " + currentQuestion.getAnswers().get("b"));
+            System.out.println("c. " + currentQuestion.getAnswers().get("c"));
+            System.out.println("d. " + currentQuestion.getAnswers().get("d"));
 
             String answer = null;
             Boolean useMoveTurn = false;
@@ -76,12 +78,17 @@ public class CoreGame {
             if (useMoveTurn) {
                 usedMoveTurn.add(currentPlayerName);
             } else {
-                if (answer.toLowerCase().equals(question.getSolution())) {
+                if (currentPlayers.size() == 1) {
+                    break;
+                }
+
+                if (answer.toLowerCase().equals(currentQuestion.getSolution())) {
                     System.out.println("Correct answer");
                 } else {
                     System.out.println("Wrong answer");
                     currentPlayers.remove(currentPlayerName);
                 }
+                currentQuestion = null;
             }
 
             currentTurnNo++;
