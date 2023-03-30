@@ -1,0 +1,522 @@
+[
+  {
+    "question": "What is the capital of the United States?",
+    "answers": {
+      "a": "Los Angeles",
+      "b": "Washington D.C.",
+      "c": "New York City",
+      "d": "Chicago"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What color is a stop sign?",
+    "answers": {
+      "a": "Green",
+      "b": "Red",
+      "c": "Blue",
+      "d": "Yellow"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the smallest planet in our solar system?",
+    "answers": {
+      "a": "Jupiter",
+      "b": "Venus",
+      "c": "Mercury",
+      "d": "Mars"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the largest ocean in the world?",
+    "answers": {
+      "a": "Atlantic Ocean",
+      "b": "Indian Ocean",
+      "c": "Arctic Ocean",
+      "d": "Pacific Ocean"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the biggest animal on Earth?",
+    "answers": {
+      "a": "Elephant",
+      "b": "Giraffe",
+      "c": "Blue Whale",
+      "d": "Hippopotamus"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the tree that produces acorns?",
+    "answers": {
+      "a": "Pine",
+      "b": "Maple",
+      "c": "Oak",
+      "d": "Birch"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the continent where Egypt is located?",
+    "answers": {
+      "a": "North America",
+      "b": "Europe",
+      "c": "Asia",
+      "d": "Africa"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the highest mountain in the world?",
+    "answers": {
+      "a": "Mt. Kilimanjaro",
+      "b": "Mt. Everest",
+      "c": "Mt. Fuji",
+      "d": "Mt. Rainier"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous painting by Leonardo da Vinci that is displayed at the Louvre museum?",
+    "answers": {
+      "a": "The Starry Night",
+      "b": "The Last Supper",
+      "c": "Mona Lisa",
+      "d": "The Scream"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the language spoken in China?",
+    "answers": {
+      "a": "Mandarin",
+      "b": "Spanish",
+      "c": "French",
+      "d": "English"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the longest river in the world?",
+    "answers": {
+      "a": "Nile River",
+      "b": "Amazon River",
+      "c": "Yangtze River",
+      "d": "Mississippi River"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the biggest planet in our solar system?",
+    "answers": {
+      "a": "Mercury",
+      "b": "Venus",
+      "c": "Mars",
+      "d": "Jupiter"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the animal that is also known as man's best friend?",
+    "answers": {
+      "a": "Cat",
+      "b": "Horse",
+      "c": "Dog",
+      "d": "Hamster"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the famous American singer who is known for her work as a pop vocalist?",
+    "answers": {
+      "a": "Whitney Houston",
+      "b": "Mariah Carey",
+      "c": "Celine Dion",
+      "d": "Adele"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the largest organ in the human body?",
+    "answers": {
+      "a": "Heart",
+      "b": "Liver",
+      "c": "Brain",
+      "d": "Skin"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the famous American entrepreneur who is known for his work as the CEO of Apple Inc.?",
+    "answers": {
+      "a": "Mark Zuckerberg",
+      "b": "Jeff Bezos",
+      "c": "Bill Gates",
+      "d": "Steve Jobs"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the famous American musician who is known for his work as a guitarist for the band \"The Doors\"?",
+    "answers": {
+      "a": "Jimi Hendrix",
+      "b": "Jimmy Page",
+      "c": "Eddie Van Halen",
+      "d": "Robby Krieger"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the smallest country in the world?",
+    "answers": {
+      "a": "Monaco",
+      "b": "Vatican City",
+      "c": "Liechtenstein",
+      "d": "San Marino"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work in the \"Rocky\" movies?",
+    "answers": {
+      "a": "Sylvester Stallone",
+      "b": "Arnold Schwarzenegger",
+      "c": "Tom Cruise",
+      "d": "Brad Pitt"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American author who wrote the novel \"To Kill a Mockingbird\"?",
+    "answers": {
+      "a": "Ernest Hemingway",
+      "b": "F. Scott Fitzgerald",
+      "c": "Harper Lee",
+      "d": "Emily Bronte"
+    },
+    "solution": "c"
+  },  
+  {
+    "question": "What is the name of the famous American cartoon character who lives in a pineapple under the sea?",
+    "answers": {
+      "a": "Bugs Bunny",
+      "b": "Tom and Jerry",
+      "c": "SpongeBob SquarePants",
+      "d": "Daffy Duck"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a comedian and talk show host?",
+    "answers": {
+      "a": "Ellen DeGeneres",
+      "b": "Oprah Winfrey",
+      "c": "Jimmy Kimmel",
+      "d": "David Letterman"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a superhero in the \"Iron Man\" movies?",
+    "answers": {
+      "a": "Robert Downey Jr.",
+      "b": "Chris Hemsworth",
+      "c": "Chris Evans",
+      "d": "Tom Hiddleston"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American artist who is known for his work as a pop art painter?",
+    "answers": {
+      "a": "Vincent van Gogh",
+      "b": "Leonardo da Vinci",
+      "c": "Pablo Picasso",
+      "d": "Andy Warhol"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the famous American author who wrote the \"Harry Potter\" book series?",
+    "answers": {
+      "a": "J.K. Rowling",
+      "b": "Stephenie Meyer",
+      "c": "Suzanne Collins",
+      "d": "Veronica Roth"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American athlete who is known for his work as a professional golfer?",
+    "answers": {
+      "a": "Tiger Woods",
+      "b": "Phil Mickelson",
+      "c": "Jordan Spieth",
+      "d": "Rory McIlroy"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American entrepreneur who is known for his work as the CEO of Tesla Inc.?",
+    "answers": {
+      "a": "Mark Zuckerberg",
+      "b": "Jeff Bezos",
+      "c": "Bill Gates",
+      "d": "Elon Musk"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the famous American actress who is known for her work as a character in the \"Friends\" TV series?",
+    "answers": {
+      "a": "Jennifer Aniston",
+      "b": "Courteney Cox",
+      "c": "Lisa Kudrow",
+      "d": "Maggie Wheeler"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American athlete who is known for his work as a professional basketball player and as a businessman?",
+    "answers": {
+      "a": "Michael Jordan",
+      "b": "Kobe Bryant",
+      "c": "LeBron James",
+      "d": "Magic Johnson"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Star Wars\" movies?",
+    "answers": {
+      "a": "Harrison Ford",
+      "b": "Mark Hamill",
+      "c": "Anthony Daniels",
+      "d": "Billy Dee Williams"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous American singer who is known for her work as a character in the movie \"The Bodyguard\"?",
+    "answers": {
+      "a": "Whitney Houston",
+      "b": "Mariah Carey",
+      "c": "Celine Dion",
+      "d": "Adele"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Terminator\" movies?",
+    "answers": {
+      "a": "Arnold Schwarzenegger",
+      "b": "Sylvester Stallone",
+      "c": "Bruce Willis",
+      "d": "Jean-Claude Van Damme"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American athlete who is known for his work as a professional boxer?",
+    "answers": {
+      "a": "Muhammad Ali",
+      "b": "Mike Tyson",
+      "c": "Floyd Mayweather Jr.",
+      "d": "Manny Pacquiao"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American entrepreneur who is known for his work as the founder of Microsoft Corporation?",
+    "answers": {
+      "a": "Steve Jobs",
+      "b": "Mark Zuckerberg",
+      "c": "Bill Gates",
+      "d": "Larry Page"
+    },
+    "solution": "c"
+  },
+  {
+    "question": "What is the name of the famous American actress who is known for her work as a character in the \"Legally Blonde\" movies?",
+    "answers": {
+      "a": "Reese Witherspoon",
+      "b": "Cameron Diaz",
+      "c": "Jennifer Lawrence",
+      "d": "Anne Hathaway"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American singer who is known for her work as a country music artist?",
+    "answers": {
+      "a": "Dolly Parton",
+      "b": "Taylor Swift",
+      "c": "Carrie Underwood",
+      "d": "Shania Twain"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American athlete who is known for his work as a professional football player?",
+    "answers": {
+      "a": "Tom Brady",
+      "b": "Peyton Manning",
+      "c": "Joe Montana",
+      "d": "Brett Favre"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Forrest Gump\" movie?",
+    "answers": {
+      "a": "Tom Hanks",
+      "b": "Brad Pitt",
+      "c": "Leonardo DiCaprio",
+      "d": "Johnny Depp"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American singer who is known for her work as a character in the movie \"Dreamgirls\"?",
+    "answers": {
+      "a": "Beyonce",
+      "b": "Alicia Keys",
+      "c": "Whitney Houston",
+      "d": "Christina Aguilera"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American athlete who is known for her work as a professional tennis player?",
+    "answers": {
+      "a": "Serena Williams",
+      "b": "Venus Williams",
+      "c": "Maria Sharapova",
+      "d": "Steffi Graf"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Rocky\" movies?",
+    "answers": {
+      "a": "Sylvester Stallone",
+      "b": "Arnold Schwarzenegger",
+      "c": "Bruce Willis",
+      "d": "Jean-Claude Van Damme"
+    },
+    "solution": "a"
+  }, 
+  {
+    "question": "What is the name of the famous American entrepreneur who is known for his work as the founder of Amazon.com?",
+    "answers": {
+      "a": "Mark Zuckerberg",
+      "b": "Jeff Bezos",
+      "c": "Bill Gates",
+      "d": "Elon Musk"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous American actress who is known for her work as a character in the \"Harry Potter\" movies?",
+    "answers": {
+      "a": "Emma Stone",
+      "b": "Emma Watson",
+      "c": "Jennifer Lawrence",
+      "d": "Anne Hathaway"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous American singer who is known for her work as a pop star and actress?",
+    "answers": {
+      "a": "Taylor Swift",
+      "b": "Beyonce",
+      "c": "Katy Perry",
+      "d": "Rihanna"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous American athlete who is known for his work as a professional baseball player?",
+    "answers": {
+      "a": "Babe Ruth",
+      "b": "Mickey Mantle",
+      "c": "Hank Aaron",
+      "d": "Willie Mays"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Pirates of the Caribbean\" movies?",
+    "answers": {
+      "a": "Johnny Depp",
+      "b": "Tom Hanks",
+      "c": "Brad Pitt",
+      "d": "Leonardo DiCaprio"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American singer who is known for her work as a character in the movie \"Grease\"?",
+    "answers": {
+      "a": "Whitney Houston",
+      "b": "Mariah Carey",
+      "c": "Celine Dion",
+      "d": "Olivia Newton-John"
+    },
+    "solution": "d"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"The Godfather\" movies?",
+    "answers": {
+      "a": "Al Pacino",
+      "b": "Robert De Niro",
+      "c": "Marlon Brando",
+      "d": "James Caan"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American entrepreneur who is known for his work as the founder of Tesla, Inc.?",
+    "answers": {
+      "a": "Elon Musk",
+      "b": "Steve Jobs",
+      "c": "Bill Gates",
+      "d": "Mark Zuckerberg"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American actress who is known for her work as a character in the \"Mean Girls\" movie?",
+    "answers": {
+      "a": "Amanda Seyfried",
+      "b": "Lindsay Lohan",
+      "c": "Emma Stone",
+      "d": "Scarlett Johansson"
+    },
+    "solution": "b"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Indiana Jones\" movies?",
+    "answers": {
+      "a": "Harrison Ford",
+      "b": "Tom Cruise",
+      "c": "Bruce Willis",
+      "d": "Mel Gibson"
+    },
+    "solution": "a"
+  },
+  {
+    "question": "What is the name of the famous American actor who is known for his work as a character in the \"Die Hard\" movies?",
+    "answers": {
+      "a": "Bruce Willis",
+      "b": "Sylvester Stallone",
+      "c": "Arnold Schwarzenegger",
+      "d": "Jean-Claude Van Damme"
+    },
+    "solution": "a"
+  }
+]  
