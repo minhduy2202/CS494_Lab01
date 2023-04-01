@@ -1,104 +1,77 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginUI extends JFrame {
-
-    private JLabel titleLabel, numPlayersLabel, logoLabel;
-    private JTextField numPlayersTextField;
-    private JButton startButton;
-
-    private ArrayList<String> playerNames = new ArrayList<>();
-    private String[] blockList = {"admin", "root", "superuser"};
+    private ImagePanel mainPanel;
 
     public LoginUI() {
-        // Set up the frame
-        setTitle("Who Wants to Be a Millionaire - Login");
+        setTitle("Who Wants to Be a Millionaire");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+        setSize(1920, 1080);
         setResizable(false);
         setLocationRelativeTo(null);
 
-        // Set up the logo label
-        logoLabel = new JLabel(new ImageIcon("logo.png"));
-        logoLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(logoLabel, BorderLayout.NORTH);
+        mainPanel = new ImagePanel("Backgrounds/Background00.png");
+        mainPanel.setLayout(new GridBagLayout()); // Use GridBagLayout here
+        setContentPane(mainPanel);
 
-        // Set up the title label
-        titleLabel = new JLabel("Who Wants to Be a Millionaire");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        add(titleLabel, BorderLayout.CENTER);
+        // Tạo một JPanel mới để chứa các thành phần nhập liệu và nút submit
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        inputPanel.setOpaque(false);
+        inputPanel.setPreferredSize(new Dimension(960, 150));
 
-        // Set up the number of players label and text field
-        JPanel numPlayersPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-        numPlayersLabel = new JLabel("Enter number of players:");
-        numPlayersLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        numPlayersPanel.add(numPlayersLabel);
+        // Tạo một ô nhập liệu (JTextField) để người dùng nhập tên
+        HintTextField playerNameField = new HintTextField("Enter Player's Name");
+        playerNameField.setFont(new Font("Arial", Font.PLAIN, 32));
+        playerNameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playerNameField.setPreferredSize(new Dimension(960, 75));
+        inputPanel.add(playerNameField);
 
-        numPlayersTextField = new JTextField(20);
-        numPlayersTextField.setFont(new Font("Arial", Font.PLAIN, 24));
-        numPlayersPanel.add(numPlayersTextField);
+        // Thêm một khoảng trống giữa ô nhập liệu và nút submit
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        add(numPlayersPanel, BorderLayout.CENTER);
+        // Tạo một nút submit (JButton)
+        JButton submitButton = new JButton("Submit");
+        submitButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputPanel.add(submitButton);
 
-        // Set up the start button
-        startButton = new JButton("Start");
-        startButton.setFont(new Font("Arial", Font.PLAIN, 24));
-        startButton.setBackground(new Color(0, 153, 51));
-        startButton.setForeground(Color.WHITE);
-        startButton.setBorderPainted(false);
-        startButton.setFocusPainted(false);
-        startButton.addActionListener(e -> {
-            try {
-                int numPlayers = Integer.parseInt(numPlayersTextField.getText());
-                if (numPlayers <= 0) {
-                    JOptionPane.showMessageDialog(this, "Number of players must be greater than 0.");
-                    numPlayersTextField.setText("");
+        // Đặt inputPanel ở giữa và cách điểm dưới màn hình 30 pixel
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.insets = new Insets(0, 0, 30, 0); // Add 30 pixels of padding at the bottom
+        mainPanel.add(inputPanel, gbc);
+
+        // Thêm sự kiện cho nút submit
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String playerName = playerNameField.getText();
+                if (!playerName.isEmpty()) {
+                    // Xử lý tên người chơi tại đây, chẳng hạn như chuyển sang màn hình chính của trò chơi
+                    System.out.println("Player name: " + playerName);
                 } else {
-                    for (int i = 0; i < numPlayers; i++) {
-                        String playerName = JOptionPane.showInputDialog(this, "Enter player " + (i+1) + "'s name:");
-                        if (playerName == null || playerName.trim().isEmpty()) {
-                            JOptionPane.showMessageDialog(this, "Input name invalid, please try again.");
-                            i--;
-                        } else if (playerNames.contains(playerName)) {
-                            JOptionPane.showMessageDialog(this, "Name already exists, please try again.");
-                            i--;
-                        } else if (isNameBlocked(playerName)) {
-                            JOptionPane.showMessageDialog(this, "Invalid name, please try again.");
-                            i--;
-                        } else if (playerName.equalsIgnoreCase("exit")) {
-                            // User wants to exit without entering all player names
-                            break;
-                        } else {
-                            playerNames.add(playerName);
-                        }
-                    }
-                    // TODO: Proceed to the main game UI with playerNames list
+                    JOptionPane.showMessageDialog(null, "Please enter a name", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Number of players must be an integer.");
-                numPlayersTextField.setText("");
             }
         });
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-        buttonPanel.add(startButton);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(buttonPanel, BorderLayout.SOUTH);
 
-    }
-    private boolean isNameBlocked(String name) {
-        for (String blockedName : blockList) {
-            if (blockedName.equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-        return false;
+        setVisible(true);
     }
 
     public static void main(String[] args) {
-        LoginUI loginUI = new LoginUI();
-        loginUI.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new LoginUI();
+            }
+        });
     }
 }
