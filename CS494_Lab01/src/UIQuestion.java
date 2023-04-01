@@ -88,17 +88,19 @@ public class UIQuestion extends JFrame {
         questionContentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         questionContentPanel.setLayout(new GridBagLayout());
         questionContentPanel.add(questionContentLabel);
-        questionContentPanel.setPreferredSize(new Dimension(1920, 200));
+        questionContentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200)); // Set the preferred size of the question content panel
 
         JPanel questionContentWrapper = new JPanel();
+        questionContentWrapper.setBackground(Color.black);
         questionContentWrapper.setOpaque(true);
         questionContentWrapper.setLayout(new GridBagLayout());
+        questionContentWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         questionContentWrapper.add(questionContentPanel, gbc);
-        mainPanel.add(questionContentWrapper, BorderLayout.CENTER);
+        // mainPanel.add(questionContentWrapper, BorderLayout.CENTER);
 
         // Set up the answer buttons
         answerALabel = new JLabel("A. Paris");
@@ -144,27 +146,22 @@ public class UIQuestion extends JFrame {
         answerPanel.add(answerCButton);
         answerPanel.add(answerDButton);
         answerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        answerPanel.setPreferredSize(new Dimension(answerPanel.getPreferredSize().width, 200)); // Set the preferred width for the answer panel to 1920
+        answerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
 
 
         // Create a new panel to hold the question content and answer buttons
         JPanel contentAndAnswerPanel = new JPanel();
-        contentAndAnswerPanel.setOpaque(false);
+        contentAndAnswerPanel.setOpaque(true);
+        questionContentPanel.setBackground(Color.BLACK);
         contentAndAnswerPanel.setLayout(new BoxLayout(contentAndAnswerPanel, BoxLayout.Y_AXIS));
-
-
-        GridBagConstraints contentAndAnswerGbc = new GridBagConstraints();
-        contentAndAnswerGbc.gridx = 0;
-        contentAndAnswerGbc.gridy = 0;
-        contentAndAnswerGbc.weightx = 1;
-        contentAndAnswerGbc.weighty = 1;
-        contentAndAnswerGbc.anchor = GridBagConstraints.SOUTH;
+        contentAndAnswerPanel.add(Box.createVerticalGlue()); // Add vertical glue to center the question content and answer panel vertically
         contentAndAnswerPanel.add(questionContentWrapper);
+        // contentAndAnswerPanel.add(Box.createVerticalStrut(20)); // Add vertical strut to create a 20-pixel gap between the question content and answer panel
         contentAndAnswerPanel.add(answerPanel);
-
+        contentAndAnswerPanel.add(Box.createVerticalGlue()); // Add vertical glue to center the question content and answer panel vertically
 
         // Add the content and answer panel to the main panel
-        mainPanel.add(contentAndAnswerPanel, BorderLayout.CENTER);
+        mainPanel.add(contentAndAnswerPanel, BorderLayout.SOUTH);
 
 
 
@@ -197,7 +194,9 @@ public class UIQuestion extends JFrame {
         timer.start();
     }
 
-    private class TimerListener implements ActionListener {
+
+
+        private class TimerListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             timeRemaining--;
