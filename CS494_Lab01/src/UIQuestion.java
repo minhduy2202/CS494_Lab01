@@ -39,7 +39,8 @@ public class UIQuestion extends JFrame {
     private int timeRemaining;
     private ImagePanel mainPanel;
 
-    private JPanel answerPanel, questionIndexPanel, questionContentPanel;
+    private JPanel answerPanel, questionIndexPanel, questionContentPanel, timerPanel,
+            timerWrapper, contentAndAnswerPanel;
 
     public UIQuestion() {
         // Set up the frame
@@ -63,17 +64,22 @@ public class UIQuestion extends JFrame {
         questionIndexPanel.setOpaque(true);
         questionIndexPanel.setBackground(Color.BLACK);
         questionIndexPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        questionIndexLabel.setHorizontalAlignment(JLabel.CENTER);
         questionIndexPanel.add(questionIndexLabel);
+
+        // Add question index panel to the main panel
+        // mainPanel.add(questionIndexPanel, BorderLayout.CENTER);
 
         JPanel questionIndexWrapper = new JPanel();
         questionIndexWrapper.setOpaque(false);
         questionIndexWrapper.setLayout(new GridBagLayout());
         GridBagConstraints questionIndexGbc = new GridBagConstraints();
+        questionIndexWrapper.setMaximumSize(new Dimension(1920, 200));
         questionIndexGbc.gridx = 0;
         questionIndexGbc.gridy = 0;
-        questionIndexGbc.anchor = GridBagConstraints.CENTER;
+        questionIndexGbc.anchor = GridBagConstraints.NORTHWEST;
         questionIndexWrapper.add(questionIndexPanel, questionIndexGbc);
-        mainPanel.add(questionIndexWrapper, BorderLayout.NORTH);
+        mainPanel.add(questionIndexWrapper, BorderLayout.WEST);
 
         // Set up the question content label
         questionContentLabel = new JLabel("What is the capital city of France?");
@@ -150,7 +156,7 @@ public class UIQuestion extends JFrame {
 
 
         // Create a new panel to hold the question content and answer buttons
-        JPanel contentAndAnswerPanel = new JPanel();
+        contentAndAnswerPanel = new JPanel();
         contentAndAnswerPanel.setOpaque(true);
         questionContentPanel.setBackground(Color.BLACK);
         contentAndAnswerPanel.setLayout(new BoxLayout(contentAndAnswerPanel, BoxLayout.Y_AXIS));
@@ -169,23 +175,25 @@ public class UIQuestion extends JFrame {
         timerLabel = new JLabel();
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerLabel.setForeground(Color.RED);
-        timerLabel.setHorizontalAlignment(JLabel.RIGHT);
-        timerLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 20));
-        JPanel timerPanel = new JPanel();
+        timerLabel.setHorizontalAlignment(JLabel.CENTER);
+        timerLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        timerPanel = new JPanel(new BorderLayout());
         timerPanel.setOpaque(true);
         timerPanel.setBackground(Color.BLACK);
         timerPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        timerPanel.add(timerLabel);
+        timerPanel.add(timerLabel, BorderLayout.CENTER);
 
-        JPanel timerWrapper = new JPanel();
+        timerWrapper = new JPanel();
         timerWrapper.setOpaque(false);
         timerWrapper.setLayout(new GridBagLayout());
         GridBagConstraints timerGbc = new GridBagConstraints();
         timerGbc.gridx = 0;
         timerGbc.gridy = 0;
-        timerGbc.anchor = GridBagConstraints.CENTER;
+        timerGbc.gridwidth = 2; // Set the gridwidth to 2 to span two columns
+        timerGbc.anchor = GridBagConstraints.NORTHEAST;
         timerWrapper.add(timerPanel, timerGbc);
-        mainPanel.add(timerWrapper, BorderLayout.EAST);
+        mainPanel.add(timerWrapper, BorderLayout.NORTH);
 
         // Initialize the timer
         timeRemaining = TIMER_DURATION;
