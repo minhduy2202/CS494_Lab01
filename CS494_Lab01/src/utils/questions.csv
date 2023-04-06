@@ -1,0 +1,40 @@
+question id,question,a,b,c,d,solution
+1,1+1=?,1,2,3,4,b
+2,2+2=?,2,4,6,8,b
+3,What is the shortcut key for copy on a Windows computer?,Ctrl+C,Ctrl+V,Ctrl+X,Ctrl+A,a
+4,What is the name of the programming language that is used to create web pages?,HTML,CSS,JavaScript,Python,a
+5,Who is the founder of Microsoft Corporation?,Steve Jobs,Bill Gates,Jeff Bezos,Mark Zuckerberg,b
+6,What is the capital of Canada?,Toronto,Ottawa,Vancouver,Montreal,b
+7,What is the name of the largest ocean on Earth?,Indian Ocean,Atlantic Ocean,Arctic Ocean,Pacific Ocean,d
+8,How many planets are in our solar system?,7,8,9,10,b
+9,What is the currency of Japan?,Euro,Yen,Pound,Dollar,b
+10,What is the name of the first man to walk on the moon?,Neil Armstrong,Buzz Aldrin,Yuri Gagarin,Alan Shepard,a
+11,What is the largest planet in our solar system?,Mars,Venus,Saturn,Jupiter,d
+12,Who created the iPhone?,Samsung,Apple,Microsoft,Google,b
+13,What is the name of the world's largest desert?,Sahara,Gobi,Arabian,Kalahari,a
+14,Which of these is a type of renewable energy?,Coal,Oil,Solar,Natural Gas,c
+15,Who painted the Mona Lisa?,Vincent van Gogh,Pablo Picasso,Leonardo da Vinci,Michelangelo,c
+16,What is the name of the fictional detective created by Sir Arthur Conan Doyle?,James Bond,Hercule Poirot,Miss Marple,Sherlock Holmes,d
+17,What is the capital of Spain?,Madrid,Barcelona,Seville,Valencia,a
+18,Which planet is known as the Red Planet?,Mercury,Venus,Mars,Jupiter,c
+19,What is the name of the world's largest ocean?,Atlantic Ocean,Indian Ocean,Arctic Ocean,Pacific Ocean,d
+20,Which social media platform was created by Mark Zuckerberg?,Twitter,Instagram,Facebook,LinkedIn,c
+21,What is the chemical symbol for gold?,G,Au,Ag,Fe,b
+22,What is the capital of France?,Berlin,Paris,Madrid,Rome,b
+23,Which country is known as the Land of the Rising Sun?,China,Japan,Korea,Vietnam,b
+24,Which US state is home to the Grand Canyon?,Colorado,Arizona,California,Texas,b
+25,What is the highest mountain in the world?,Mount Everest,Kilimanjaro,Denali,Mont Blanc,a
+26,What is the name of the ocean that borders the east coast of the United States?,Atlantic Ocean,Indian Ocean,Pacific Ocean,Arctic Ocean,a
+27,What is the smallest planet in our solar system?,Mars,Mercury,Venus,Saturn,b
+28,Who is the creator of the TV show The Simpsons?,Matt Groening,Seth MacFarlane,Trey Parker,Matt Stone,a
+29,What is the name of the device used to measure temperature?,Barometer,Hygrometer,Thermometer,Anemometer,c
+30,Which of these is a programming language?,SQL,HTML,CSS,XML,a
+31,What is the largest animal in the world?,Blue Whale,Elephant,Giraffe,Hippopotamus,a
+32,Which country is home to the Great Barrier Reef?,Australia,Brazil,Canada,Mexico,a
+33,What is the name of the currency used in the United Kingdom?,Euro,Pound,Yen,Dollar,b
+34,Which country is the largest by land area?,China,India,Russia,Canada,c
+35,What is the name of the highest mountain in North America?,Mount Denali,Mount Whitney,Mount Rainier,Mount Shasta,a
+36,What is the name of the fictional spy created by Ian Fleming?,James Bond,Jason Bourne,Ethan Hunt,Jack Bauer,a
+37,What is the capital of Russia?,Moscow,St. Petersburg,Kiev,Warsaw,a
+38,Which of these is not a primary color?,Red,Green,Blue,Yellow,d
+39,What is the name of the device used to measure time?,Barometer,Chronometer,Hygrometer,Anemometer,b
