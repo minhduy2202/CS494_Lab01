@@ -13,14 +13,16 @@ import java.nio.channels.SocketChannel;
 public class ClientSession {
     private SocketChannel clientSocket;
     private Selector mainSelector;
+    private GameCore gameCore;
     private PacketReader packetReader;
     private PacketWriter packetWriter;
 
     private String username = null;
 
-    public ClientSession(SocketChannel clientSocket, Selector mainSelector) {
+    public ClientSession(SocketChannel clientSocket, Selector mainSelector, GameCore gameCore) {
         this.clientSocket = clientSocket;
         this.mainSelector = mainSelector;
+        this.gameCore = gameCore;
 
         packetReader = new PacketReader(this);
         packetWriter = new PacketWriter(this);
@@ -102,6 +104,10 @@ public class ClientSession {
     public void disconnectClient() throws IOException {
         // disconnect the socket
         clientSocket.close();
+    }
+
+    public void handlePacket() {
+        new Thread(new ServerHandler(this, this.gameCore)).start();
     }
 
     public SocketChannel getClientSocket() {
