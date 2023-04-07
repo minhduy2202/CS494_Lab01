@@ -1,6 +1,6 @@
 package server;
 
-import server.packet.Packet;
+import packet.Packet;
 
 import java.util.List;
 

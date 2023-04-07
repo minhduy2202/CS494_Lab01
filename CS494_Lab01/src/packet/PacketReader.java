@@ -1,4 +1,4 @@
-package server.packet;
+package packet;
 
 import server.ClientSession;
 import server.MyServer;

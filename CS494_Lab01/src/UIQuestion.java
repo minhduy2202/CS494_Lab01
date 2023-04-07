@@ -50,7 +50,7 @@ public class UIQuestion extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
-        mainPanel = new ImagePanel("Backgrounds/Background00.png");
+        mainPanel = new ImagePanel("../Backgrounds/Background00.png");
         mainPanel.setLayout(new BorderLayout());
         setContentPane(mainPanel);
 

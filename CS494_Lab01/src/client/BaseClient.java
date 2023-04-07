@@ -1,7 +1,7 @@
 package client;
 
 /*package whatever //do not write package name here */
-import server.packet.Packet;
+import packet.Packet;
 
 import java.io.BufferedReader;
 import java.io.IOException;

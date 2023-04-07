@@ -1,8 +1,8 @@
 package server;
 
-import server.packet.Packet;
-import server.packet.PacketReader;
-import server.packet.PacketWriter;
+import packet.Packet;
+import packet.PacketReader;
+import packet.PacketWriter;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

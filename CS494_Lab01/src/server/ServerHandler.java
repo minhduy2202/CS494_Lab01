@@ -1,6 +1,6 @@
 package server;
 
-import server.packet.Packet;
+import packet.Packet;
 
 public class ServerHandler implements Runnable{
     ClientSession clientSession;

@@ -1,6 +1,6 @@
 package server;
 
-import server.packet.Packet;
+import packet.Packet;
 import utils.Constants;
 import utils.Loader;
 import utils.Question;
