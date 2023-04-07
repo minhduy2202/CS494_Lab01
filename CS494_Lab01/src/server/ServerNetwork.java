@@ -9,19 +9,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SelectorLoop implements Runnable {
+public class ServerNetwork implements Runnable {
     private final Selector mainSelector;
     private final ServerSocketChannel serverSocketChannel;
 
     private GameCore gameCore = null;
     private ArrayList<ClientSession> acceptedClientSession = new ArrayList<ClientSession>();
 
-    public SelectorLoop(Selector selector, ServerSocketChannel serverSocketChannel, GameCore gameCore) {
+    public ServerNetwork(Selector selector, ServerSocketChannel serverSocketChannel, GameCore gameCore) {
         this.serverSocketChannel = serverSocketChannel;
         this.mainSelector = selector;
-
         this.gameCore = gameCore;
-//        new Thread(gameCore).start();
     }
 
     @Override
@@ -69,8 +67,6 @@ public class SelectorLoop implements Runnable {
                     }
                 }
             }
-            // gameCore.execute(null, null);
-
         }
     }
 
@@ -81,7 +77,7 @@ public class SelectorLoop implements Runnable {
 //        System.out.println("Accepted connection from" + clientChannel);
         clientChannel.configureBlocking(false);
 
-        ClientSession clientSession = new ClientSession(clientChannel, mainSelector);
+        ClientSession clientSession = new ClientSession(clientChannel, mainSelector, this.gameCore);
         clientChannel.register(mainSelector, SelectionKey.OP_READ, clientSession);
         acceptedClientSession.add(clientSession);
         gameCore.addClientSession(clientSession);
@@ -89,14 +85,12 @@ public class SelectorLoop implements Runnable {
 
     // handle writing to channels
     private void handleWrite(SelectionKey key) throws IOException {
-        // System.out.println("Go to write hehe");
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.write(key);
     }
 
     // handle reading from the channels
     private void handleRead(SelectionKey key) throws IOException {
-        // System.out.println("Go to read hehe");
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.read(key);
     }

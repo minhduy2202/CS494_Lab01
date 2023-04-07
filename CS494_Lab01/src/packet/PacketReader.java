@@ -1,7 +1,6 @@
 package packet;
 
 import server.ClientSession;
-import server.MyServer;
 
 import java.nio.ByteBuffer;
 import java.util.Iterator;
@@ -30,7 +29,6 @@ public class PacketReader {
 
     // processes the buffer queue
     public void processBufferQueue() {
-//        System.out.println("Go to process buffer queue");
 
         Iterator<ByteBuffer> it = partialBufferQueue.iterator();
 
@@ -56,8 +54,8 @@ public class PacketReader {
             // a full message has been read
             partialMessageString = null;
             fullMessages.add(stringBuilder.toString());
-            MyServer.handlePacket(this.clientSession);
-//            System.out.println("received: " + stringBuilder.toString());
+            this.clientSession.handlePacket();
+//            gameCore.handlePacket
             stringBuilder = new StringBuilder(1024);
 
             it.remove();
