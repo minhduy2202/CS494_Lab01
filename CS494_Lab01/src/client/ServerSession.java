@@ -1,4 +1,4 @@
-package server;
+package client;
 
 import packet.Packet;
 import packet.PacketReader;
@@ -13,14 +13,18 @@ import java.nio.channels.SocketChannel;
 public class ClientSession {
     private SocketChannel clientSocket;
     private Selector mainSelector;
+    private SelectionKey key;
+
     private PacketReader packetReader;
     private PacketWriter packetWriter;
 
+    private int orderID;
     private String username = null;
 
-    public ClientSession(SocketChannel clientSocket, Selector mainSelector) {
+    public ClientSession(SocketChannel clientSocket, Selector mainSelector, SelectionKey key) {
         this.clientSocket = clientSocket;
         this.mainSelector = mainSelector;
+        this.key = key;
 
         packetReader = new PacketReader(this);
         packetWriter = new PacketWriter(this);
@@ -124,19 +128,23 @@ public class ClientSession {
         return this.username;
     }
 
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
+
     // override the equals method to compare two client sessions
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof ClientSession)) {
+        if (!(obj instanceof server.ClientSession)) {
             return false;
         }
         if ((obj instanceof String)) {
             return obj.equals(this.getUsername());
         }
-        ClientSession cs = (ClientSession) obj;
+        server.ClientSession cs = (server.ClientSession) obj;
         return cs.getUsername().equals(this.getUsername());
     }
 

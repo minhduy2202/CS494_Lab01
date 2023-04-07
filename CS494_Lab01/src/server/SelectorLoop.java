@@ -81,7 +81,7 @@ public class SelectorLoop implements Runnable {
 //        System.out.println("Accepted connection from" + clientChannel);
         clientChannel.configureBlocking(false);
 
-        ClientSession clientSession = new ClientSession(clientChannel, mainSelector, key);
+        ClientSession clientSession = new ClientSession(clientChannel, mainSelector);
         clientChannel.register(mainSelector, SelectionKey.OP_READ, clientSession);
         acceptedClientSession.add(clientSession);
         gameCore.addClientSession(clientSession);
