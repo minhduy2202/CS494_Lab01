@@ -1,6 +1,6 @@
 package server;
 
-import server.packet.Packet;
+import packet.Packet;
 import utils.Constants;
 import utils.Loader;
 import utils.Question;
@@ -52,7 +52,7 @@ public class GameCore implements Runnable {
             e.printStackTrace();
         }
 
-        new Thread(new SelectorLoop(selector, serverSocketChannel, this)).start();
+        new Thread(new ServerNetwork(selector, serverSocketChannel, this)).start();
     }
 
     public GameCore(LinkedList<ClientSession> sessions) {
@@ -67,7 +67,7 @@ public class GameCore implements Runnable {
         } else {
             this.curPlayerIdx++;
         }
-        this.curPlayerIdx = this.curPlayerIdx % clientSessions.size();
+        this.curPlayerIdx %= clientSessions.size();
     }
 
     synchronized public void execute(Packet packet, ClientSession sender) {

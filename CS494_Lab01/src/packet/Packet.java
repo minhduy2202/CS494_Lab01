@@ -1,4 +1,4 @@
-package server.packet;
+package packet;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;

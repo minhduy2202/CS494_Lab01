@@ -1,8 +1,8 @@
 package server;
 
-import server.packet.Packet;
-import server.packet.PacketReader;
-import server.packet.PacketWriter;
+import packet.Packet;
+import packet.PacketReader;
+import packet.PacketWriter;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -13,18 +13,16 @@ import java.nio.channels.SocketChannel;
 public class ClientSession {
     private SocketChannel clientSocket;
     private Selector mainSelector;
-    private SelectionKey key;
-
+    private GameCore gameCore;
     private PacketReader packetReader;
     private PacketWriter packetWriter;
 
-    private int orderID;
     private String username = null;
 
-    public ClientSession(SocketChannel clientSocket, Selector mainSelector, SelectionKey key) {
+    public ClientSession(SocketChannel clientSocket, Selector mainSelector, GameCore gameCore) {
         this.clientSocket = clientSocket;
         this.mainSelector = mainSelector;
-        this.key = key;
+        this.gameCore = gameCore;
 
         packetReader = new PacketReader(this);
         packetWriter = new PacketWriter(this);
@@ -108,6 +106,10 @@ public class ClientSession {
         clientSocket.close();
     }
 
+    public void handlePacket() {
+        new Thread(new ServerHandler(this, this.gameCore)).start();
+    }
+
     public SocketChannel getClientSocket() {
         return clientSocket;
     }
@@ -126,10 +128,6 @@ public class ClientSession {
 
     public String getUsername() {
         return this.username;
-    }
-
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
     }
 
     // override the equals method to compare two client sessions
