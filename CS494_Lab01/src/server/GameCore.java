@@ -1,6 +1,7 @@
 package server;
 
 import packet.Packet;
+import session.ClientSession;
 import utils.Constants;
 import utils.Loader;
 import utils.Question;
@@ -33,7 +34,7 @@ public class GameCore implements Runnable {
 
     public GameCore() {
         this.clientSessions = new LinkedList<>();
-        this.questionSet = new RandomSet<>(Loader.loadCSV("src/utils/questions.csv"));
+        this.questionSet = new RandomSet<>(Loader.loadCSV("CS494_Lab01/src/utils/questions.csv"));
 
         openNonBlockingSocket();
     }

@@ -11,7 +11,7 @@ public class Constants {
     public static String SERVER_IP = "127.0.0.1";
     public static int PORT = 8080;
 
-    // game states constants
+    // server game states constants
     public static final int WAITING_FOR_PLAYERS = 0;
     public static final int GAME_READY = 1;
     public static final int GAME_STARTED = 2;
@@ -22,6 +22,11 @@ public class Constants {
     public static final int SERVER_START_GAME_PACKET_ID = 101;
     public static final int SERVER_QUESTION_PACKET_ID = 102;
     public static final int SERVER_QUESTION_RESULT_PACKET_ID = 103;
+
+    // client game states constants
+    public static final int LOG_IN = 0;
+    public static final int WAITING_GAME_START = 1;
+
 
     // client packet id to send to server
     public static final int CLIENT_LOGIN_PACKET_ID = 200;

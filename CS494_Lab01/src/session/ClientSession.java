@@ -1,8 +1,11 @@
-package server;
+package session;
 
+import client.ClientHandler;
 import packet.Packet;
 import packet.PacketReader;
 import packet.PacketWriter;
+import server.GameCore;
+import server.ServerHandler;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -13,16 +16,15 @@ import java.nio.channels.SocketChannel;
 public class ClientSession {
     private SocketChannel clientSocket;
     private Selector mainSelector;
-    private GameCore gameCore;
     private PacketReader packetReader;
     private PacketWriter packetWriter;
 
     private String username = null;
 
-    public ClientSession(SocketChannel clientSocket, Selector mainSelector, GameCore gameCore) {
+
+    public ClientSession(SocketChannel clientSocket, Selector mainSelector) {
         this.clientSocket = clientSocket;
         this.mainSelector = mainSelector;
-        this.gameCore = gameCore;
 
         packetReader = new PacketReader(this);
         packetWriter = new PacketWriter(this);
@@ -74,7 +76,6 @@ public class ClientSession {
 
         // process the buffer queue and construct the messages
         packetReader.processBufferQueue();
-
     }
 
     // register interest in writing and add the message to the queue
@@ -106,9 +107,13 @@ public class ClientSession {
         clientSocket.close();
     }
 
-    public void handlePacket() {
-        new Thread(new ServerHandler(this, this.gameCore)).start();
-    }
+//    public void handlePacket() {
+//        if (isSessionInServer) {
+//            new Thread(new ServerHandler(this, this.gameCore)).start();
+//        } else {
+//            new Thread(new ClientHandler(this, this.gameCore)).start();
+//        }
+//    }
 
     public SocketChannel getClientSocket() {
         return clientSocket;

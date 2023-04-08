@@ -1,6 +1,6 @@
 package packet;
 
-import server.ClientSession;
+import session.ClientSession;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

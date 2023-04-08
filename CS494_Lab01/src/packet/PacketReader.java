@@ -1,6 +1,6 @@
 package packet;
 
-import server.ClientSession;
+import session.ClientSession;
 
 import java.nio.ByteBuffer;
 import java.util.Iterator;
@@ -54,7 +54,7 @@ public class PacketReader {
             // a full message has been read
             partialMessageString = null;
             fullMessages.add(stringBuilder.toString());
-            this.clientSession.handlePacket();
+//            this.clientSession.handlePacket();
 //            gameCore.handlePacket
             stringBuilder = new StringBuilder(1024);
 
