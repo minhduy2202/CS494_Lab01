@@ -57,6 +57,11 @@ public class LoginUI extends JFrame {
                 if (!playerName.isEmpty()) {
                     // Xử lý tên người chơi tại đây, chẳng hạn như chuyển sang màn hình chính của trò chơi
                     System.out.println("Player name: " + playerName);
+
+                    UIQuestion uiQuestion = new UIQuestion();
+                    uiQuestion.setVisible(true);
+                    LoginUI.this.dispose(); // Dispose of the LoginUI frame
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Please enter a name", "Error", JOptionPane.ERROR_MESSAGE);
                 }
