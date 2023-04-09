@@ -49,7 +49,7 @@ public class LoginUI extends JFrame {
         gbc.insets = new Insets(0, 0, 30, 0); // Add 30 pixels of padding at the bottom
         mainPanel.add(inputPanel, gbc);
 
-        // Thêm sự kiện cho nút submit
+// Thêm sự kiện cho nút submit
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,9 +58,24 @@ public class LoginUI extends JFrame {
                     // Xử lý tên người chơi tại đây, chẳng hạn như chuyển sang màn hình chính của trò chơi
                     System.out.println("Player name: " + playerName);
 
-                    UIQuestion uiQuestion = new UIQuestion();
-                    uiQuestion.setVisible(true);
-                    LoginUI.this.dispose(); // Dispose of the LoginUI frame
+                    // Dispose of the LoginUI frame
+                    LoginUI.this.dispose();
+
+                    // Show the splash screen
+                    SplashScreen splashScreen = new SplashScreen();
+                    splashScreen.setVisible(true);
+
+                    // Set up a timer to close the splash screen after 10 seconds and open UIQuestion
+                    Timer timer = new Timer(10000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            splashScreen.closeSplashScreen();
+                            UIQuestion uiQuestion = new UIQuestion();
+                            uiQuestion.setVisible(true);
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Please enter a name", "Error", JOptionPane.ERROR_MESSAGE);
