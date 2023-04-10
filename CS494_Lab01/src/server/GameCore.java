@@ -12,10 +12,7 @@ import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 public class GameCore implements Runnable {
 
@@ -38,7 +35,7 @@ public class GameCore implements Runnable {
 
     public GameCore() {
         this.clientSessions = new LinkedList<>();
-        this.questionSet = new RandomSet<>(Loader.loadCSV("CS494_Lab01/src/utils/questions.csv"));
+        this.questionSet = new RandomSet<>(Loader.loadCSV("src/utils/questions.csv"));
 
         openNonBlockingSocket();
     }
@@ -105,7 +102,7 @@ public class GameCore implements Runnable {
                         this.gameState = Constants.GAME_READY;
                     }
 
-                    if (this.clientSessions.size() >= 2) {
+                    if (this.turnOnTimer()) {
                         this.countDownStartTime = System.currentTimeMillis();
                     }
                 }
@@ -225,7 +222,6 @@ public class GameCore implements Runnable {
                     }
                 }
             }
-
         }
 
     }
@@ -267,6 +263,40 @@ public class GameCore implements Runnable {
     synchronized public void addClientSession(ClientSession clientSession) {
         if (this.gameState == Constants.WAITING_FOR_PLAYERS)
             this.clientSessions.add(clientSession);
+    }
+
+    synchronized private boolean turnOnTimer(){
+        int cnt = 0;
+        for (ClientSession clientSession : this.clientSessions) {
+            if (clientSession.getUsername() != null) {
+                cnt += 1;
+                if (cnt == 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    synchronized public void removeClientSessionWithID(int id){
+        for(int i = 0; i < this.clientSessions.size();i++){
+            if (this.clientSessions.get(i).getID() == id){
+                this.clientSessions.remove(i);
+                break;
+            }
+        }
+    }
+
+    synchronized public void printUsername(){
+        if (this.clientSessions.size() == 0) {
+            System.out.println("There is no connected player at game core thread");
+            return;
+        }
+        System.out.print("Current players at game core thread: ");
+        for (ClientSession cs : this.clientSessions) {
+            System.out.print(cs.getID() + "-" + cs.getUsername() + ", ");
+        }
+        System.out.println();
     }
 
     @Override

@@ -17,6 +17,7 @@ public class ServerNetwork implements Runnable {
 
     private GameCore gameCore = null;
     private ArrayList<ClientSession> acceptedClientSession = new ArrayList<ClientSession>();
+    private int incrementClientSessionID = 0;
 
     public ServerNetwork(Selector selector, ServerSocketChannel serverSocketChannel, GameCore gameCore) {
         this.serverSocketChannel = serverSocketChannel;
@@ -62,6 +63,9 @@ public class ServerNetwork implements Runnable {
                 } catch (IOException e) {
                     key.cancel();
                     try {
+                        int clientID2Remove = ((ClientSession) key.attachment()).getID();
+                        this.gameCore.removeClientSessionWithID(clientID2Remove);
+                        this.removeClientSessionWithID(clientID2Remove);
                         key.channel().close();
                         System.out.println("Client leave server");
                     } catch (IOException ioException) {
@@ -79,10 +83,11 @@ public class ServerNetwork implements Runnable {
 //        System.out.println("Accepted connection from" + clientChannel);
         clientChannel.configureBlocking(false);
 
-        ClientSession clientSession = new ClientSession(clientChannel, mainSelector);
+        ClientSession clientSession = new ClientSession(clientChannel, mainSelector, this.incrementClientSessionID);
         clientChannel.register(mainSelector, SelectionKey.OP_READ, clientSession);
         acceptedClientSession.add(clientSession);
         gameCore.addClientSession(clientSession);
+        this.incrementClientSessionID++;
     }
 
     // handle writing to channels
@@ -103,14 +108,24 @@ public class ServerNetwork implements Runnable {
     }
 
     private void printAllUserName() {
+        this.gameCore.printUsername();
         if (this.acceptedClientSession.size() == 0) {
-            System.out.println("There is no connected player");
+            System.out.println("There is no connected player at server network thread");
             return;
         }
-        System.out.print("Current players: ");
+        System.out.print("Current players at server network thread: ");
         for (ClientSession cs : this.acceptedClientSession) {
-            System.out.print(cs.getUsername() + ", ");
+            System.out.print(cs.getID() + "-" + cs.getUsername() + ", ");
         }
         System.out.println();
+    }
+
+    private void removeClientSessionWithID(int id){
+        for(int i = 0; i < this.acceptedClientSession.size();i++){
+            if (this.acceptedClientSession.get(i).getID() == id){
+                this.acceptedClientSession.remove(i);
+                break;
+            }
+        }
     }
 }
