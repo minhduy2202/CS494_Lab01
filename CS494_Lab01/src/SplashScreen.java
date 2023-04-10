@@ -16,7 +16,7 @@ public class SplashScreen extends JFrame {
         setTitle("Loading");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1920, 1080);
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
 
         // Set up the main panel
@@ -33,6 +33,7 @@ public class SplashScreen extends JFrame {
         loadingLabel.setMinimumSize(new Dimension(1920, 40));
         mainPanel.add(loadingLabel, BorderLayout.CENTER);
 
+        // Tao 1 bien integer de resize lai (Dua theo size hien tai, tinh li le cac thu)
         // Set up the progress bar
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);

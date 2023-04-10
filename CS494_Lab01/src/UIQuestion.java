@@ -100,8 +100,11 @@ public class UIQuestion extends JFrame {
     private int timeRemaining;
     private ImagePanel mainPanel;
 
+    private JButton skipButton;
+    private boolean skipUsed = false;
+
     private JPanel answerPanel, questionIndexPanel, questionContentPanel, timerPanel,
-            timerWrapper, contentAndAnswerPanel, prizePanel;
+            timerWrapper, contentAndAnswerPanel, prizePanel, skipButtonPanel;
 
     public UIQuestion() {
         // Initialize the JLabels
@@ -118,7 +121,7 @@ public class UIQuestion extends JFrame {
         setTitle("Who Wants to Be a Millionaire - Question");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1920, 1080);
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
 
         mainPanel = new ImagePanel("/Backgrounds/Background00.png");
@@ -171,20 +174,20 @@ public class UIQuestion extends JFrame {
         prizeGbc.gridy = 0;
         prizeGbc.anchor = GridBagConstraints.NORTHEAST;
         prizeWrapper.add(prizePanel, prizeGbc);
-        mainPanel.add(prizeWrapper, BorderLayout.EAST);
+        // mainPanel.add(prizeWrapper, BorderLayout.EAST);
 
         loadQuestion(currentQuestionIndex);
 
         questionContentPanel = new JPanel();
         questionContentPanel.setOpaque(true);
-        questionContentPanel.setBackground(Color.BLACK);
+        questionContentPanel.setBackground(Color.WHITE);
         questionContentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         questionContentPanel.setLayout(new GridBagLayout());
         questionContentPanel.add(questionContentLabel);
         questionContentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200)); // Set the preferred size of the question content panel
 
         JPanel questionContentWrapper = new JPanel();
-        questionContentWrapper.setBackground(Color.BLACK);
+        questionContentWrapper.setBackground(Color.WHITE);
         questionContentWrapper.setOpaque(true);
         questionContentWrapper.setLayout(new GridBagLayout());
         questionContentWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
@@ -200,17 +203,14 @@ public class UIQuestion extends JFrame {
         answerAButton.setPreferredSize(new Dimension(480, 80));
 
         answerBButton = new JButton();
-        answerBButton.add(answerBLabel);
         answerBButton.setFont(new Font("Arial", Font.PLAIN, 24));
         answerBButton.setPreferredSize(new Dimension(480, 80));
 
         answerCButton = new JButton();
-        answerCButton.add(answerCLabel);
         answerCButton.setFont(new Font("Arial", Font.PLAIN, 24));
         answerCButton.setPreferredSize(new Dimension(480, 80));
 
         answerDButton = new JButton();
-        answerDButton.add(answerDLabel);
         answerDButton.setFont(new Font("Arial", Font.PLAIN, 24));
         answerDButton.setPreferredSize(new Dimension(480, 80));
 
@@ -227,12 +227,12 @@ public class UIQuestion extends JFrame {
         // Create a panel for the question and answer content
         contentAndAnswerPanel = new JPanel();
         contentAndAnswerPanel.setLayout(new BorderLayout());
-        contentAndAnswerPanel.setOpaque(false);
+        contentAndAnswerPanel.setOpaque(true);
 
 
         answerPanel = new JPanel(new GridLayout(2, 2, 20, 20));
-        answerPanel.setBackground(Color.BLACK);
         answerPanel.setOpaque(true);
+        answerPanel.setBackground(Color.RED);
         answerPanel.add(answerAButton);
         answerPanel.add(answerBButton);
         answerPanel.add(answerCButton);
@@ -244,7 +244,7 @@ public class UIQuestion extends JFrame {
         // Create a new panel to hold the question content and answer buttons
         contentAndAnswerPanel = new JPanel();
         contentAndAnswerPanel.setOpaque(true);
-        questionContentPanel.setBackground(Color.BLACK);
+        //questionContentPanel.setBackground(Color.WHITE);
         contentAndAnswerPanel.setLayout(new BoxLayout(contentAndAnswerPanel, BoxLayout.Y_AXIS));
         contentAndAnswerPanel.add(Box.createVerticalGlue()); // Add vertical glue to center the question content and answer panel vertically
         contentAndAnswerPanel.add(questionContentWrapper);
@@ -289,12 +289,71 @@ public class UIQuestion extends JFrame {
         timerLabel.setText("Time: " + timeRemaining + "s");
         timer = new Timer(1000, new TimerListener());
         timer.start();
+
+
+        // Initialize the skip button
+        skipButton = new JButton("Skip Question");
+        skipButton.setFont(new Font("Arial", Font.PLAIN, 24));
+        skipButton.setPreferredSize(new Dimension(200, 50));
+        skipButton.setHorizontalAlignment(JLabel.RIGHT);
+        skipButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!skipUsed) {
+                    int result = JOptionPane.showConfirmDialog(
+                            UIQuestion.this,
+                            "Are you sure you want to skip this question?",
+                            "Skip Question",
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+                    if (result == JOptionPane.YES_OPTION) {
+                        skipUsed = true;
+                        // Replace the code below with the logic to load the next question
+                        System.out.println("Question skipped!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(
+                            UIQuestion.this,
+                            "You have already used your skip option.",
+                            "Skip Unavailable",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
+        });
+
+        skipButtonPanel = new JPanel();
+        skipButtonPanel.setOpaque(true);
+        skipButtonPanel.setBackground(Color.WHITE);
+        skipButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        skipButtonPanel.add(skipButton);
+
+        JPanel skipButtonWrapper = new JPanel();
+        skipButtonWrapper.setOpaque(false);
+        skipButtonWrapper.setLayout(new GridBagLayout());
+        GridBagConstraints skipButtonIndexGbc = new GridBagConstraints();
+        questionIndexWrapper.setMaximumSize(new Dimension(200, 50));
+        skipButtonIndexGbc.gridx = 0;
+        skipButtonIndexGbc.gridy = 0;
+        skipButtonIndexGbc.anchor = GridBagConstraints.NORTHEAST;
+        skipButtonWrapper.add(skipButtonPanel, skipButtonIndexGbc);
+        mainPanel.add(skipButtonWrapper, BorderLayout.EAST);
+
+//        GridBagConstraints skipGbc = new GridBagConstraints();
+//        skipGbc.gridx = 0;
+//        skipGbc.gridy = 0;
+//        skipGbc.anchor = GridBagConstraints.EAST;
+//        skipGbc.insets = new Insets(0, 0, 0, 0);
+//        mainPanel.add(skipButton, BorderLayout.EAST);
+        //timerWrapper.add(skipButton, skipGbc);
+
     }
 
     // Create a method to configure the answer buttons and labels
     private void configureAnswerButtonAndLabel(JButton button, JLabel label, String text) {
         label.setFont(new Font("Arial", Font.BOLD, 24));
-        label.setForeground(Color.WHITE);
+        label.setForeground(Color.BLACK);
         label.setText(text);
         button.add(label);
         button.setFocusPainted(false);
@@ -309,7 +368,7 @@ public class UIQuestion extends JFrame {
         questionIndexLabel.setText("Question " + (index + 1) + " / 30");
         questionContentLabel.setText(questions[index].getQuestion());
         questionContentLabel.setFont(new Font("Arial", Font.BOLD, 32));
-        questionContentLabel.setForeground(Color.WHITE);
+        questionContentLabel.setForeground(Color.BLACK);
         questionContentLabel.setHorizontalAlignment(JLabel.CENTER);
         questionContentLabel.setVerticalAlignment(JLabel.CENTER);
 
@@ -341,23 +400,42 @@ public class UIQuestion extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            timer.stop();
-            boolean isCorrect = checkAnswer(selectedAnswerIndex);
-            if (isCorrect) {
-                prizeWon = Math.min(currentQuestionIndex, PRIZES.length - 1);
-                prizeLabel.setText("Prize: $" + PRIZES[prizeWon]);
-                currentQuestionIndex++;
+            int confirmResult = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to choose this answer?",
+                    "Confirm Answer",
+                    JOptionPane.YES_NO_OPTION
+            );
 
-                if (currentQuestionIndex >= TOTAL_QUESTIONS) {
-                    JOptionPane.showMessageDialog(null, "Congratulations! You have won $" + PRIZES[prizeWon] + "!", "You Win", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
+            if (confirmResult == JOptionPane.YES_OPTION) {
+                timer.stop();
+                boolean isCorrect = checkAnswer(selectedAnswerIndex);
+                if (isCorrect) {
+                    prizeWon = Math.min(currentQuestionIndex, PRIZES.length - 1);
+                    prizeLabel.setText("Prize: $" + PRIZES[prizeWon]);
+                    currentQuestionIndex++;
+
+                    if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+//                        JOptionPane.showMessageDialog(null, "Congratulations! You have won $" + PRIZES[prizeWon] + "!", "You Win", JOptionPane.INFORMATION_MESSAGE);
+                        UIQuestion.this.dispose();
+
+                        YouWinUI youWinUI = new YouWinUI();
+                        youWinUI.setVisible(true);
+                        //System.exit(0);
+                    } else {
+                        loadQuestion(currentQuestionIndex);
+                        resetTimer();
+                    }
                 } else {
-                    loadQuestion(currentQuestionIndex);
-                    resetTimer();
+//                    JOptionPane.showMessageDialog(null, "Incorrect answer. You lost!", "You Lose", JOptionPane.INFORMATION_MESSAGE);
+//                    System.exit(0);
+                    UIQuestion.this.dispose();
+
+                    YouLoseUI youLoseUI = new YouLoseUI();
+                    youLoseUI.setVisible(true);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Incorrect answer. You lost!", "You Lose", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+                resetTimer();
             }
         }
     }
@@ -379,8 +457,12 @@ public class UIQuestion extends JFrame {
 
             if (timeRemaining <= 0) {
                 timer.stop();
-                JOptionPane.showMessageDialog(null, "Time's up! You lost!", "You Lose", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+//                JOptionPane.showMessageDialog(null, "Time's up! You lost!", "You Lose", JOptionPane.INFORMATION_MESSAGE);
+//                System.exit(0);
+                UIQuestion.this.dispose();
+
+                YouLoseUI youLoseUI = new YouLoseUI();
+                youLoseUI.setVisible(true);
             } else {
                 timerLabel.setText("Time: " + timeRemaining + "s");
             }
