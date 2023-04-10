@@ -125,6 +125,7 @@ public class GameCore implements Runnable {
                 Packet startGamePacket = new Packet(Constants.SERVER_START_GAME_PACKET_ID);
                 startGamePacket.addKey(Constants.NUMBER_OF_PLAYERS, String.valueOf(this.clientSessions.size()));
                 startGamePacket.addKey(Constants.NUMBER_OF_QUESTIONS, String.valueOf(this.questionSet.size()));
+                startGamePacket.addKey(Constants.PLAYER_ORDER_NUMBER, null);
                 Collections.shuffle(this.clientSessions);
                 for (int i = 0; i < this.clientSessions.size(); i++) {
                     startGamePacket.updateKey(Constants.PLAYER_ORDER_NUMBER, String.valueOf(i + 1));

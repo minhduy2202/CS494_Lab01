@@ -107,14 +107,14 @@ public class ClientNetwork implements Runnable {
     }
 
     // handle reading from the channels
-    private void handleRead(SelectionKey key) throws IOException {
+    synchronized public void handleRead(SelectionKey key) throws IOException {
         // System.out.println("Go to read hehe");
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.read(key);
         this.handlePacket(clientSession);
     }
 
-    private void handlePacket(ClientSession clientSession){
+    synchronized public void handlePacket(ClientSession clientSession){
         new Thread(new ClientHandler(clientSession, this.clientGameCore)).start();
     }
 
