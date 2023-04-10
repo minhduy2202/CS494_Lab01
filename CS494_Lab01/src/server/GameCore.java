@@ -12,6 +12,7 @@ import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -31,6 +32,9 @@ public class GameCore implements Runnable {
     boolean sentQuestion = false;
 
     ServerSender serverSender = new ServerSender();
+    private int curQuestionNumber = 0;
+
+    private Long countDownStartTime = null;
 
     public GameCore() {
         this.clientSessions = new LinkedList<>();
@@ -71,7 +75,7 @@ public class GameCore implements Runnable {
         this.curPlayerIdx %= clientSessions.size();
     }
 
-    synchronized public void execute(Packet packet, ClientSession sender) {
+    synchronized public void execute(Packet packet, ClientSession sender) throws InterruptedException {
 
         switch (this.gameState) {
 
@@ -92,6 +96,7 @@ public class GameCore implements Runnable {
 
                     Packet responsePacket = new Packet(Constants.SERVER_LOGIN_PACKET_ID);
                     responsePacket.addKey(Constants.STATUS, status);
+                    responsePacket.addKey(Constants.PLAYER_ORDER_NUMBER, String.valueOf(this.clientSessions.size()));
 
                     sendPacket2SingleClient(responsePacket, sender);
 
@@ -99,16 +104,37 @@ public class GameCore implements Runnable {
                     if (this.clientSessions.size() == Constants.MAX_PLAYER) {
                         this.gameState = Constants.GAME_READY;
                     }
+
+                    if (this.clientSessions.size() >= 2) {
+                        this.countDownStartTime = System.currentTimeMillis();
+                    }
+                }
+
+                if (this.countDownStartTime != null) {
+                    if (System.currentTimeMillis() - this.countDownStartTime > Constants.WAITING_TIME_OUT_MS) {
+                        this.gameState = Constants.GAME_READY;
+                    }
                 }
             }
 
             case Constants.GAME_READY -> {
+                // adjust number of questions
+                int maxQuestions = this.clientSessions.size() * 3;
+                while (this.questionSet.size() > maxQuestions) {
+                    this.questionSet.pollRandom(new Random());
+                }
+
                 // send start game packet to all client sessions
                 Packet startGamePacket = new Packet(Constants.SERVER_START_GAME_PACKET_ID);
-                serverSender.sendPacketToAllClients(this.clientSessions, startGamePacket);
-                sendPacket2AllClients(startGamePacket);
+                startGamePacket.addKey(Constants.NUMBER_OF_PLAYERS, String.valueOf(this.clientSessions.size()));
+                startGamePacket.addKey(Constants.NUMBER_OF_QUESTIONS, String.valueOf(this.questionSet.size()));
+                Collections.shuffle(this.clientSessions);
+                for (int i = 0; i < this.clientSessions.size(); i++) {
+                    startGamePacket.updateKey(Constants.PLAYER_ORDER_NUMBER, String.valueOf(i + 1));
+                    sendPacket2SingleClient(startGamePacket, this.clientSessions.get(i));
+                }
                 this.gameState = Constants.GAME_STARTED;
-
+                Thread.sleep(2000);
             }
 
             case Constants.GAME_STARTED -> {
@@ -116,33 +142,34 @@ public class GameCore implements Runnable {
                     // send question to the current player
                     if (this.curQuestion == null) {
                         this.curQuestion = this.questionSet.pollRandom(new Random());
+                        this.curQuestionNumber += 1;
                     }
 
                     // create new packet to send to the current client turn
                     Packet questionPacket = createQuestionPacket();
 
-                    // serverSender.sendPacketToClient(this.clientSessions.get(curPlayerIdx),
-                    // questionPacket);
-                    sendPacket2SingleClient(questionPacket, this.clientSessions.get(curPlayerIdx));
+//                    sendPacket2SingleClient(questionPacket, this.clientSessions.get(curPlayerIdx));
+                    sendPacket2AllClients(questionPacket);
+
                     sentQuestion = true;
                 } else {
                     // handle received packet
                     // check if the packet is from the current player
-                    if (sender.getUsername().equals(this.clientSessions.get(curPlayerIdx).getUsername())) {
+                    if (packet != null && sender.getUsername().equals(this.clientSessions.get(curPlayerIdx).getUsername())) {
                         // check if the packet is an answer packet
                         if (packet.getPacketId() == Constants.CLIENT_ANSWER_PACKET_ID) {
                             String answer = packet.getKey(Constants.ANSWER);
                             Packet resultPacket = new Packet(Constants.SERVER_QUESTION_RESULT_PACKET_ID);
 
                             String result = null;
-                            if (answer.equals(this.curQuestion.getSolution())) {
+                            if (answer.equalsIgnoreCase(this.curQuestion.getSolution())) {
                                 result = Constants.CORRECT;
-                                resultPacket.addKey(Constants.RESULT, Constants.SUCCESS);
                             } else {
                                 result = Constants.WRONG;
-                                resultPacket.addKey(Constants.RESULT, Constants.WRONG);
-                                resultPacket.addKey(Constants.SOLUTION, this.curQuestion.getSolution());
                             }
+                            resultPacket.addKey(Constants.RESULT, result);
+                            resultPacket.addKey(Constants.SOLUTION, this.curQuestion.getSolution());
+                            resultPacket.addKey(Constants.CANDIDATE, this.clientSessions.get(curPlayerIdx).getUsername());
 
                             if (result.equals(Constants.CORRECT)) {
                                 // move to next player
@@ -156,22 +183,44 @@ public class GameCore implements Runnable {
                             this.sentQuestion = false;
                             this.curQuestion = null;
 
-                            serverSender.sendPacketToAllClients(this.clientSessions, resultPacket);
+                            sendPacket2AllClients(resultPacket);
 
                         } else if (packet.getPacketId() == Constants.CLIENT_MOVE_TURN_PACKET_ID) {
                             // this is a move turn packet
+                            String result = Constants.SUCCESS;
                             if (this.usedMoveTurn.contains(sender)) {
                                 // this player has already used the move turn
                                 // send error packet
                                 // Packet errorPacket = new Packet(Constants.SERVER_ERROR_PACKET_ID);
                                 // errorPacket.addKey(Constants.ERROR, Constants.MOVE_TURN_USED);
                                 // serverSender.sendPacketToClient(sender, errorPacket);
+                                result = Constants.FAIL;
                             } else {
                                 this.usedMoveTurn.add(sender);
                                 this.sentQuestion = false;
                                 this.moveToNextPlayer(false);
                                 this.nTurns++;
                             }
+
+                            Packet moveTurnResultPacket = new Packet(Constants.SERVER_MOVE_TURN_PACKET_ID);
+                            moveTurnResultPacket.addKey(Constants.STATUS, result);
+                            moveTurnResultPacket.addKey(Constants.CANDIDATE, this.clientSessions.get(curPlayerIdx).getUsername());
+
+                            sendPacket2AllClients(moveTurnResultPacket);
+                        } else if (packet.getPacketId() == Constants.CLIENT_TIMEOUT_PACKET_ID) {
+                            Packet resultPacket = new Packet(Constants.SERVER_QUESTION_RESULT_PACKET_ID);
+
+                            resultPacket.addKey(Constants.RESULT, Constants.TIME_OUT);
+                            resultPacket.addKey(Constants.SOLUTION, this.curQuestion.getSolution());
+                            resultPacket.addKey(Constants.CANDIDATE, this.clientSessions.get(curPlayerIdx).getUsername());
+
+                            this.moveToNextPlayer(true);
+
+                            nTurns++;
+                            this.sentQuestion = false;
+                            this.curQuestion = null;
+
+                            sendPacket2AllClients(resultPacket);
                         }
                     }
                 }
@@ -189,6 +238,7 @@ public class GameCore implements Runnable {
         questionPacket.addKey(Constants.ANSWER_C, curQuestion.getAnswers().get(Constants.ANSWER_C));
         questionPacket.addKey(Constants.ANSWER_D, curQuestion.getAnswers().get(Constants.ANSWER_D));
         questionPacket.addKey(Constants.CANDIDATE, this.clientSessions.get(curPlayerIdx).getUsername());
+        questionPacket.addKey(Constants.CUR_QUESTION_NUMBER, String.valueOf(this.curQuestionNumber));
 
         if (usedMoveTurn.contains(this.clientSessions.get(curPlayerIdx))) {
             questionPacket.addKey(Constants.MOVE_TURN_USED, Constants.TRUE);
@@ -198,7 +248,7 @@ public class GameCore implements Runnable {
         return questionPacket;
     }
 
-    private void sendPacket2SingleClient(Packet packet, ClientSession sender) {
+    synchronized private void sendPacket2SingleClient(Packet packet, ClientSession sender) {
         new Thread() {
             public void run() {
                 serverSender.sendPacketToClient(sender, packet);
@@ -206,7 +256,7 @@ public class GameCore implements Runnable {
         }.start();
     }
 
-    private void sendPacket2AllClients(Packet packet) {
+    synchronized private void sendPacket2AllClients(Packet packet) {
         new Thread() {
             public void run() {
                 serverSender.sendPacketToAllClients(clientSessions, packet);
@@ -222,7 +272,11 @@ public class GameCore implements Runnable {
     @Override
     public void run() {
         while (true) {
-            this.execute(null, null);
+            try {
+                this.execute(null, null);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
