@@ -28,6 +28,8 @@ public class PacketWriter {
             return;
         }
 
+        System.out.println(" Send: " + new String(byteBuffer.array()));
+
         //write as much as it can to the socketChannel
         clientSession.writeToSocket(byteBuffer);
 

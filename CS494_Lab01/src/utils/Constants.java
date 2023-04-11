@@ -17,6 +17,8 @@ public class Constants {
     public static final int GAME_READY = 1;
     public static final int GAME_STARTED = 2;
     public static final int GAME_ENDED = 3;
+    public static final int SPLASH_GAME_START = 4;
+    public static final int GIVE_ANSWER = 5;
 
     // server packet id to send to client
     public static final int SERVER_LOGIN_PACKET_ID = 100;
@@ -24,6 +26,8 @@ public class Constants {
     public static final int SERVER_QUESTION_PACKET_ID = 102;
     public static final int SERVER_QUESTION_RESULT_PACKET_ID = 103;
     public static final int SERVER_MOVE_TURN_PACKET_ID = 104;
+    public static final int SERVER_WIN_PACKET_ID = 105;
+    public static final int SERVER_LOSE_PACKET_ID = 106;
 
     // server attribute in packet
     public static final String PLAYER_ORDER_NUMBER = "order_number";
