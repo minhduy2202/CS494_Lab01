@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Image;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -106,7 +104,7 @@ public class UIQuestion extends JFrame {
     private boolean skipUsed = false;
 
     private JPanel answerPanel, questionIndexPanel, questionContentPanel, timerPanel,
-            timerWrapper, contentAndAnswerPanel, prizePanel, skipButtonPanel, questionContentWrapper;
+            timerWrapper, contentAndAnswerPanel, prizePanel, skipButtonPanel;
 
     public UIQuestion() {
         // Initialize the JLabels
@@ -188,7 +186,7 @@ public class UIQuestion extends JFrame {
         questionContentPanel.add(questionContentLabel);
         questionContentPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200)); // Set the preferred size of the question content panel
 
-        questionContentWrapper = new JPanel();
+        JPanel questionContentWrapper = new JPanel();
         questionContentWrapper.setBackground(Color.WHITE);
         questionContentWrapper.setOpaque(true);
         questionContentWrapper.setLayout(new GridBagLayout());
@@ -202,8 +200,7 @@ public class UIQuestion extends JFrame {
         // Initialize the JButtons
         answerAButton = new JButton();
         answerAButton.setFont(new Font("Arial", Font.PLAIN, 24));
-        answerAButton.setPreferredSize(new Dimension(
-                480, 80));
+        answerAButton.setPreferredSize(new Dimension(480, 80));
 
         answerBButton = new JButton();
         answerBButton.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -222,6 +219,9 @@ public class UIQuestion extends JFrame {
         answerBButton.addActionListener(new AnswerButtonListener(1));
         answerCButton.addActionListener(new AnswerButtonListener(2));
         answerDButton.addActionListener(new AnswerButtonListener(3));
+
+
+
 
 
         // Create a panel for the question and answer content
@@ -251,8 +251,6 @@ public class UIQuestion extends JFrame {
         // contentAndAnswerPanel.add(Box.createVerticalStrut(20)); // Add vertical strut to create a 20-pixel gap between the question content and answer panel
         contentAndAnswerPanel.add(answerPanel);
         contentAndAnswerPanel.add(Box.createVerticalGlue()); // Add vertical glue to center the question content and answer panel vertically
-
-        contentAndAnswerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
         configureAnswerButtonAndLabel(answerAButton, answerALabel, "A. " + questions[currentQuestionIndex].getAnswers()[0]);
         configureAnswerButtonAndLabel(answerBButton, answerBLabel, "B. " + questions[currentQuestionIndex].getAnswers()[1]);
@@ -313,9 +311,6 @@ public class UIQuestion extends JFrame {
                         skipUsed = true;
                         // Replace the code below with the logic to load the next question
                         System.out.println("Question skipped!");
-                        currentQuestionIndex++;
-                        loadQuestion(currentQuestionIndex);
-                        resetTimer();
                     }
                 } else {
                     JOptionPane.showMessageDialog(
@@ -330,7 +325,7 @@ public class UIQuestion extends JFrame {
 
         skipButtonPanel = new JPanel();
         skipButtonPanel.setOpaque(true);
-        skipButtonPanel.setBackground(Color.BLACK);
+        skipButtonPanel.setBackground(Color.WHITE);
         skipButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         skipButtonPanel.add(skipButton);
 
@@ -338,21 +333,12 @@ public class UIQuestion extends JFrame {
         skipButtonWrapper.setOpaque(false);
         skipButtonWrapper.setLayout(new GridBagLayout());
         GridBagConstraints skipButtonIndexGbc = new GridBagConstraints();
-        skipButtonWrapper.setMaximumSize(new Dimension(200, 50));
+        questionIndexWrapper.setMaximumSize(new Dimension(200, 50));
         skipButtonIndexGbc.gridx = 0;
         skipButtonIndexGbc.gridy = 0;
         skipButtonIndexGbc.anchor = GridBagConstraints.NORTHEAST;
         skipButtonWrapper.add(skipButtonPanel, skipButtonIndexGbc);
         mainPanel.add(skipButtonWrapper, BorderLayout.EAST);
-
-
-        // Add the ComponentListener to handle window resizing
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                resizeComponents();
-            }
-        });
 
 //        GridBagConstraints skipGbc = new GridBagConstraints();
 //        skipGbc.gridx = 0;
@@ -360,7 +346,7 @@ public class UIQuestion extends JFrame {
 //        skipGbc.anchor = GridBagConstraints.EAST;
 //        skipGbc.insets = new Insets(0, 0, 0, 0);
 //        mainPanel.add(skipButton, BorderLayout.EAST);
-//        timerWrapper.add(skipButton, skipGbc);
+        //timerWrapper.add(skipButton, skipGbc);
 
     }
 
@@ -481,127 +467,6 @@ public class UIQuestion extends JFrame {
                 timerLabel.setText("Time: " + timeRemaining + "s");
             }
         }
-    }
-
-//    private void resizeComponents() {
-//        int width = getWidth();
-//        int height = getHeight();
-//
-//        float widthRatio = (float) width / 1920;
-//        float heightRatio = (float) height / 1080;
-//
-//        int newFontSize = Math.min(Math.round(24 * widthRatio), Math.round(24 * heightRatio));
-//        int newBoldFontSize = Math.min(Math.round(24 * widthRatio), Math.round(24 * heightRatio));
-//
-//        questionIndexLabel.setFont(new Font("Arial", Font.BOLD, newBoldFontSize));
-//        prizeLabel.setFont(new Font("Arial", Font.BOLD, newBoldFontSize));
-//        timerLabel.setFont(new Font("Arial", Font.BOLD, newBoldFontSize));
-//        questionContentLabel.setFont(new Font("Arial", Font.PLAIN, newFontSize));
-//        answerAButton.setFont(new Font("Arial", Font.PLAIN, newFontSize));
-//        answerBButton.setFont(new Font("Arial", Font.PLAIN, newFontSize));
-//        answerCButton.setFont(new Font("Arial", Font.PLAIN, newFontSize));
-//        answerDButton.setFont(new Font("Arial", Font.PLAIN, newFontSize));
-//        skipButton.setFont(new Font("Arial", Font.PLAIN, newFontSize));
-//
-//        int newButtonWidth = Math.round(480 * widthRatio);
-//        int newButtonHeight = Math.round(80 * heightRatio);
-//
-//        answerAButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-//        answerBButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-//        answerCButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-//        answerDButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-//
-//        questionIndexPanel.setBorder(BorderFactory.createEmptyBorder(
-//                Math.round(10 * heightRatio),
-//                Math.round(20 * widthRatio),
-//                Math.round(10 * heightRatio),
-//                Math.round(20 * widthRatio)
-//        ));
-//
-//        prizePanel.setBorder(BorderFactory.createEmptyBorder(
-//                Math.round(10 * heightRatio),
-//                Math.round(20 * widthRatio),
-//                Math.round(10 * heightRatio),
-//                Math.round(20 * widthRatio)
-//        ));
-//
-//        timerPanel.setBorder(BorderFactory.createEmptyBorder(
-//                Math.round(10 * heightRatio),
-//                Math.round(20 * widthRatio),
-//                Math.round(10 * heightRatio),
-//                Math.round(20 * widthRatio)
-//        ));
-//
-//        questionContentPanel.setPreferredSize(new Dimension(width, Math.round(200 * heightRatio)));
-//        questionContentPanel.setBorder(BorderFactory.createEmptyBorder(
-//                Math.round(20 * heightRatio),
-//                Math.round(20 * widthRatio),
-//                Math.round(20 * heightRatio),
-//                Math.round(20 * widthRatio)
-//        ));
-//
-//        answerPanel.setBorder(BorderFactory.createEmptyBorder(
-//                Math.round(20 * heightRatio),
-//                Math.round(20 * widthRatio),
-//                Math.round(20 * heightRatio),
-//                Math.round(20 * widthRatio)
-//        ));
-//        answerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Math.round(80 * heightRatio)));
-//
-//        skipButtonPanel.setBorder(BorderFactory.createEmptyBorder(
-//                0,
-//                0,
-//                0,
-//                Math.round(20 * widthRatio)
-//        ));
-//
-//        questionContentWrapper.setPreferredSize(new Dimension((int) (Integer.MAX_VALUE * widthRatio), Math.round(400 * heightRatio)));
-//        contentAndAnswerPanel.setPreferredSize(new Dimension((int) (1920 * widthRatio), Math.round(200 * heightRatio)));
-//
-//        revalidate();
-//        repaint();
-//
-//    }
-
-    private void resizeComponents() {
-        int width = getWidth();
-        int height = getHeight();
-
-        float widthRatio = (float) width / 1920;
-        float heightRatio = (float) height / 1080;
-
-        int newFontSize = Math.min(Math.round(24 * widthRatio), Math.round(24 * heightRatio));
-        int newBoldFontSize = Math.min(Math.round(24 * widthRatio), Math.round(24 * heightRatio));
-
-        questionIndexLabel.setFont(new Font("Arial", Font.BOLD, newBoldFontSize));
-        prizeLabel.setFont(new Font("Arial", Font.BOLD, newBoldFontSize));
-        timerLabel.setFont(new Font("Arial", Font.BOLD, newBoldFontSize));
-
-        int newContentWidth = Math.round(width * 0.6f);
-        int newContentHeight = Math.round(height * 0.4f);
-        questionContentPanel.setPreferredSize(new Dimension(newContentWidth, newContentHeight));
-        answerPanel.setPreferredSize(new Dimension(newContentWidth, Math.round(height * 0.4f)));
-
-        int newButtonWidth = Math.round(newContentWidth * 0.4f);
-        int newButtonHeight = Math.round(newContentHeight * 0.15f);
-
-        answerAButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-        answerBButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-        answerCButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-        answerDButton.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
-
-        questionIndexPanel.setBorder(BorderFactory.createEmptyBorder(Math.round(height * 0.02f), Math.round(width * 0.02f), Math.round(height * 0.02f), Math.round(width * 0.02f)));
-        prizePanel.setBorder(BorderFactory.createEmptyBorder(Math.round(height * 0.02f), Math.round(width * 0.02f), Math.round(height * 0.02f), Math.round(width * 0.02f)));
-        timerPanel.setBorder(BorderFactory.createEmptyBorder(Math.round(height * 0.02f), Math.round(width * 0.02f), Math.round(height * 0.02f), Math.round(width * 0.02f)));
-        questionContentPanel.setBorder(BorderFactory.createEmptyBorder(Math.round(height * 0.02f), Math.round(width * 0.02f), Math.round(height * 0.02f), Math.round(width * 0.02f)));
-        answerPanel.setBorder(BorderFactory.createEmptyBorder(Math.round(height * 0.02f), Math.round(width * 0.02f), Math.round(height * 0.02f), Math.round(width * 0.02f)));
-        skipButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, Math.round(width * 0.02f)));
-
-        questionContentWrapper.setPreferredSize(new Dimension((int) (Integer.MAX_VALUE * widthRatio), Math.round(height * 0.4f)));
-        contentAndAnswerPanel.setPreferredSize(new Dimension((int) (width), Math.round(height * 0.4f)));
-
-        revalidate();
-        repaint();
     }
 
     public static void main(String[] args) {
