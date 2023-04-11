@@ -54,6 +54,7 @@ public class PacketReader {
             // a full message has been read
             partialMessageString = null;
             fullMessages.add(stringBuilder.toString());
+            System.out.println(" Received: " + stringBuilder.toString());
 //            this.clientSession.handlePacket();
 //            gameCore.handlePacket
             stringBuilder = new StringBuilder(1024);

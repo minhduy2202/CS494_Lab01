@@ -17,6 +17,9 @@ public class ServerNetwork implements Runnable {
 
     private GameCore gameCore = null;
     private ArrayList<ClientSession> acceptedClientSession = new ArrayList<ClientSession>();
+    private int incrementClientSessionID = 0;
+    private boolean isRunning = true;
+
 
     public ServerNetwork(Selector selector, ServerSocketChannel serverSocketChannel, GameCore gameCore) {
         this.serverSocketChannel = serverSocketChannel;
@@ -24,10 +27,14 @@ public class ServerNetwork implements Runnable {
         this.gameCore = gameCore;
     }
 
+    synchronized public void stop(){
+        this.isRunning = false;
+    }
+
     @Override
     public void run() {
-        while (mainSelector.isOpen()) {
-            System.out.println("Waiting for client to connect");
+        while (mainSelector.isOpen() && isRunning) {
+            System.out.println("\nWaiting for client to connect");
             printAllUserName();
 
             try {

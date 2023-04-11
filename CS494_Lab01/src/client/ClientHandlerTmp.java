@@ -1,9 +1,7 @@
 package client;
 
 import packet.Packet;
-import server.GameCore;
 import session.ClientSession;
-import utils.Constants;
 import utils.Question;
 
 import java.util.HashMap;
@@ -12,18 +10,17 @@ import java.util.Objects;
 
 import static utils.Constants.*;
 
-public class ClientHandler implements Runnable{
+public class ClientHandlerTmp{
     ClientSession clientSession;
 
     ClientGameCore clientGameCore;
-    public ClientHandler(ClientSession clientSession, ClientGameCore clientGameCore){
+    public ClientHandlerTmp(ClientSession clientSession, ClientGameCore clientGameCore){
         this.clientSession = clientSession;
 
         this.clientGameCore = clientGameCore;
     }
 
-    @Override
-    synchronized public void run() {
+    public void runHandler() {
 //        System.out.println("Handler is running");
         String msg = dequeuePacketFromClient();
 
