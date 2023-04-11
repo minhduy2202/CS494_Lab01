@@ -21,21 +21,10 @@ public class ClientSession {
 
     private String username = null;
 
-    private int id;
-
 
     public ClientSession(SocketChannel clientSocket, Selector mainSelector) {
         this.clientSocket = clientSocket;
         this.mainSelector = mainSelector;
-
-        packetReader = new PacketReader(this);
-        packetWriter = new PacketWriter(this);
-    }
-
-    public ClientSession(SocketChannel clientSocket, Selector mainSelector, int id) {
-        this.clientSocket = clientSocket;
-        this.mainSelector = mainSelector;
-        this.id = id;
 
         packetReader = new PacketReader(this);
         packetWriter = new PacketWriter(this);
@@ -144,14 +133,6 @@ public class ClientSession {
 
     public String getUsername() {
         return this.username;
-    }
-
-    public int getID() {
-        return id;
-    }
-
-    public void setID(int id) {
-        this.id = id;
     }
 
     // override the equals method to compare two client sessions
