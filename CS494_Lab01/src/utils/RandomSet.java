@@ -79,4 +79,8 @@ public class RandomSet<E> extends AbstractSet<E> {
     public Iterator<E> iterator() {
         return dta.iterator();
     }
+
+    public int length() {
+        return dta.size();
+    }
 }
