@@ -27,6 +27,8 @@ public class ClientNetwork implements Runnable {
     private static ClientSession clientSession;
     public static ExecutorService workerPool = Executors.newCachedThreadPool();
 
+    ClientHandlerTmp clientHandlerTmp;
+
     public ClientNetwork(ClientGameCore gameCore, String serverIp, int serverPort){
         this.serverIp = serverIp;
         this.serverPort = serverPort;
@@ -48,6 +50,7 @@ public class ClientNetwork implements Runnable {
         } catch (IOException e){
             e.printStackTrace();
         }
+        this.clientHandlerTmp = new ClientHandlerTmp(clientSession, clientGameCore);
     }
 
 
@@ -101,17 +104,16 @@ public class ClientNetwork implements Runnable {
     }
     // handle writing to channels
     private void handleWrite(SelectionKey key) throws IOException {
-        // System.out.println("Go to write hehe");
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.write(key);
     }
 
     // handle reading from the channels
     synchronized public void handleRead(SelectionKey key) throws IOException {
-        // System.out.println("Go to read hehe");
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.read(key);
-        this.handlePacket(clientSession);
+//        this.handlePacket(clientSession);
+        clientHandlerTmp.runHandler();
     }
 
     synchronized public void handlePacket(ClientSession clientSession){

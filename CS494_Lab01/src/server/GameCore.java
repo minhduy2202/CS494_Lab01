@@ -35,7 +35,7 @@ public class GameCore implements Runnable {
 
     public GameCore() {
         this.clientSessions = new LinkedList<>();
-        this.questionSet = new RandomSet<>(Loader.loadCSV("src/utils/questions.csv"));
+        this.questionSet = new RandomSet<>(Loader.loadCSV("CS494_Lab01/src/utils/questions.csv"));
 
         openNonBlockingSocket();
     }
@@ -60,7 +60,7 @@ public class GameCore implements Runnable {
     public GameCore(LinkedList<ClientSession> sessions) {
         this.clientSessions = new LinkedList<>();
         this.clientSessions.addAll(sessions);
-        this.questionSet = new RandomSet<>(Loader.loadCSV("src/questions.csv"));
+        this.questionSet = new RandomSet<>(Loader.loadCSV("CS494_Lab01/src/utils/questions.csv"));
     }
 
     synchronized public void moveToNextPlayer(boolean removeCurrentPlayer) {

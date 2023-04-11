@@ -50,7 +50,6 @@ public class ClientGameCore implements Runnable {
     }
 
     synchronized public void execute() throws IOException {
-        System.out.println(this.gameState.toString() + this.isUpdate);
         switch (this.gameState) {
             case LOG_IN -> {
                 try {
@@ -179,11 +178,17 @@ public class ClientGameCore implements Runnable {
                         clientNetwork.sendPacket2Server(packet);
                     }
 
-                    while (true){
-                        if (isUpdate){
-                            break;
+                    int i = 0;
+                    do {
+                        i++;
+                        if (i % 1000000000 == 0) {
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                    }
+                    } while (!getUpdate());
                 }
             }
 //            case OTHER_PLAYER_TURN -> {

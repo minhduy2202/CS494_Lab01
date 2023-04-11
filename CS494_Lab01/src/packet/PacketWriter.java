@@ -27,7 +27,9 @@ public class PacketWriter {
             key.interestOps(SelectionKey.OP_READ);
             return;
         }
-
+        System.out.println("-----------------");
+        System.out.println("Send packet" + new String(byteBuffer.array()));
+        System.out.println("-----------------");
         //write as much as it can to the socketChannel
         clientSession.writeToSocket(byteBuffer);
 
