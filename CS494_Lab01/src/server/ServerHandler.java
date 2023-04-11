@@ -21,11 +21,7 @@ public class ServerHandler implements Runnable{
         Packet packet = new Packet(msg.getBytes());
 //        System.out.println("Receive " + packet);
 
-        try {
-            gameCore.execute(packet, clientSession);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        gameCore.execute(packet, clientSession);
 
 //        ServerSender serverSender = new ServerSender();
 //        serverSender.sendMessageToClient(clientSession, msg);
