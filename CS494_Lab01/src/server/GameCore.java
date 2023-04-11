@@ -59,7 +59,7 @@ public class GameCore implements Runnable {
     public GameCore(LinkedList<ClientSession> sessions) {
         this.clientSessions = new LinkedList<>();
         this.clientSessions.addAll(sessions);
-        this.questionSet = new RandomSet<>(Loader.loadCSV("src/questions.csv"));
+        this.questionSet = new RandomSet<>(Loader.loadCSV("CS494_Lab01/src/utils/questions.csv"));
     }
 
     synchronized public void moveToNextPlayer(boolean removeCurrentPlayer) {
@@ -107,6 +107,14 @@ public class GameCore implements Runnable {
                 Packet startGamePacket = new Packet(Constants.SERVER_START_GAME_PACKET_ID);
                 serverSender.sendPacketToAllClients(this.clientSessions, startGamePacket);
                 sendPacket2AllClients(startGamePacket);
+                startGamePacket.addKey(Constants.NUMBER_OF_PLAYERS, String.valueOf(this.clientSessions.size()));
+                startGamePacket.addKey(Constants.NUMBER_OF_QUESTIONS, String.valueOf(this.questionSet.size()));
+                startGamePacket.addKey(Constants.PLAYER_ORDER_NUMBER, null);
+                Collections.shuffle(this.clientSessions);
+                for (int i = 0; i < this.clientSessions.size(); i++) {
+                    startGamePacket.updateKey(Constants.PLAYER_ORDER_NUMBER, String.valueOf(i + 1));
+                    sendPacket2SingleClient(startGamePacket, this.clientSessions.get(i));
+                }
                 this.gameState = Constants.GAME_STARTED;
 
             }

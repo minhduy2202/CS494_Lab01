@@ -24,8 +24,12 @@ public class Constants {
     public static final int SERVER_QUESTION_RESULT_PACKET_ID = 103;
 
     // client game states constants
-    public static final int LOG_IN = 0;
-    public static final int WAITING_GAME_START = 1;
+    public static final int LOG_IN = 4;
+    public static final int WAITING_GAME_START = 5;
+
+    public static final int SPLASH_GAME_START = 6;
+
+    public static final int GIVE_ANSWER = 7;
 
 
     // client packet id to send to server
