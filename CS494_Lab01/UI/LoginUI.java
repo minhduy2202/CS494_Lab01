@@ -10,7 +10,7 @@ public class LoginUI extends JFrame {
         setTitle("Who Wants to Be a Millionaire");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1920, 1080);
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
 
         mainPanel = new ImagePanel("Backgrounds/Background00.png");
@@ -33,11 +33,21 @@ public class LoginUI extends JFrame {
         // Thêm một khoảng trống giữa ô nhập liệu và nút submit
         inputPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
+        // Set up the game start button
+        ImageIcon submitButtonIcon = new ImageIcon(getClass().getResource("/Backgrounds/submitButton.png"));
+
+        // Scale the image
+        int fixedWidth = 200;
+        int fixedHeight = 100;
+        Image scaledImage = submitButtonIcon.getImage().getScaledInstance(fixedWidth, fixedHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
         // Tạo một nút submit (JButton)
-        JButton submitButton = new JButton("Submit");
+        JButton submitButton = new JButton(scaledIcon);
         submitButton.setFont(new Font("Arial", Font.PLAIN, 32));
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(submitButton);
+
 
         // Đặt inputPanel ở giữa và cách điểm dưới màn hình 30 pixel
         GridBagConstraints gbc = new GridBagConstraints();
@@ -65,15 +75,16 @@ public class LoginUI extends JFrame {
                     SplashScreen splashScreen = new SplashScreen();
                     splashScreen.setVisible(true);
 
-                    // Set up a timer to close the splash screen after 10 seconds and open UIQuestion
+                    // Set up a timer to close the splash screen after 10 seconds and show the InfoScreen
                     Timer timer = new Timer(10000, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             splashScreen.closeSplashScreen();
-                            UIQuestion uiQuestion = new UIQuestion();
-                            uiQuestion.setVisible(true);
+                            InfoScreen infoScreen = new InfoScreen();
+                            infoScreen.setVisible(true);
                         }
                     });
+
                     timer.setRepeats(false);
                     timer.start();
 
