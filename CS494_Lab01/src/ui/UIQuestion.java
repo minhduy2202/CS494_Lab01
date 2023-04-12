@@ -71,7 +71,7 @@ public class UIQuestion extends JFrame implements PropertyChangeListener {
 
 
         // Set up the frame
-        setTitle("Who Wants to Be a Millionaire - Question");
+        setTitle("Who Wants to Be a Millionaire - Player: " + player.getUsername());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1920, 1080);
         setResizable(true);
@@ -82,7 +82,7 @@ public class UIQuestion extends JFrame implements PropertyChangeListener {
         setContentPane(mainPanel);
 
         // Set up the question index label
-        questionIndexLabel = new JLabel("Question 1 / " + player.getNumberOfQuestions());
+        questionIndexLabel = new JLabel("Question 1 / " + player.getNumberOfQuestions() + " | " + player.getUsername());
         questionIndexLabel.setFont(new Font("Arial", Font.BOLD, 24));
         questionIndexLabel.setForeground(Color.WHITE);
         questionIndexLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -335,7 +335,7 @@ public class UIQuestion extends JFrame implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         this.setPlayer((Player) evt.getNewValue());
         if (player.getReceivePacketID() == Constants.SERVER_QUESTION_RESULT_PACKET_ID
-                && Objects.equals(player.getResult(), Constants.WRONG)
+                && (Objects.equals(player.getResult(), Constants.WRONG) || Objects.equals(player.getResult(), Constants.TIME_OUT))
                 && Objects.equals(player.getCurCandidate(), player.getUsername())){
             System.out.println("You loose UI question");
             clientNetwork.getClientHandlerTmp().removePropertyChangeListener(this);
@@ -409,10 +409,9 @@ public class UIQuestion extends JFrame implements PropertyChangeListener {
                 timer.stop();
 //                JOptionPane.showMessageDialog(null, "Time's up! You lost!", "You Lose", JOptionPane.INFORMATION_MESSAGE);
 //                System.exit(0);
-                UIQuestion.this.dispose();
                 System.out.println("You lose time out");
-                YouLoseUI youLoseUI = new YouLoseUI(player);
-                youLoseUI.setVisible(true);
+                Packet packet = new Packet(Constants.CLIENT_TIMEOUT_PACKET_ID);
+                clientNetwork.sendPacket2Server(packet);
             } else {
                 timerLabel.setText("Time: " + timeRemaining + "s");
             }

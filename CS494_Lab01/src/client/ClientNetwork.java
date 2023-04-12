@@ -23,15 +23,12 @@ public class ClientNetwork implements Runnable {
 
 //    ClientGameCore clientGameCore;
     private static ClientSession clientSession;
-    public static ExecutorService workerPool = Executors.newCachedThreadPool();
 
     ClientHandler clientHandler;
 
     public ClientNetwork( String serverIp, int serverPort){
         this.serverIp = serverIp;
         this.serverPort = serverPort;
-
-//        this.clientGameCore = gameCore;
 
         try {
             mainSelector = Selector.open();
@@ -110,13 +107,8 @@ public class ClientNetwork implements Runnable {
     synchronized public void handleRead(SelectionKey key) throws IOException {
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.read(key);
-//        this.handlePacket(clientSession);
         clientHandler.runHandler();
     }
-
-//    synchronized public void handlePacket(ClientSession clientSession){
-//        new Thread(new ClientHandler(clientSession, this.clientGameCore)).start();
-//    }
 
     public synchronized void sendPacket2Server(Packet packet) {
         clientSession.sendPacket(packet);

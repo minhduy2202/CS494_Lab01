@@ -24,7 +24,7 @@ public class YouLoseUI extends JFrame {
         getContentPane().add(mainPanel);
 
         // Set up the win label
-        LoseLabel = new JLabel("Sorry " + player.getUsername() + " answer incorrect, you lose!");
+        LoseLabel = new JLabel("Sorry " + player.getUsername() + ", the answer is " + player.getSolution() + ", you lose!");
         LoseLabel.setFont(new Font("Arial", Font.BOLD, 40));
         LoseLabel.setHorizontalAlignment(JLabel.CENTER);
         LoseLabel.setForeground(Color.RED);
