@@ -39,7 +39,7 @@ public class GameCore implements Runnable {
 
     public GameCore() {
         this.clientSessions = new LinkedList<>();
-        this.questionSet = new RandomSet<>(Loader.loadCSV("src/utils/questions.csv"));
+        this.questionSet = new RandomSet<>(Loader.loadCSV("CS494_Lab01/src/utils/questions.csv"));
 
         openNonBlockingSocket();
     }
@@ -99,6 +99,9 @@ public class GameCore implements Runnable {
                     Packet responsePacket = new Packet(Constants.SERVER_LOGIN_PACKET_ID);
                     responsePacket.addKey(Constants.STATUS, status);
                     responsePacket.addKey(Constants.PLAYER_ORDER_NUMBER, String.valueOf(sender.getID() + 1));
+                    if (sender.getUsername() != null){
+                        responsePacket.addKey(Constants.USERNAME, sender.getUsername());
+                    }
 
                     sendPacket2SingleClient(responsePacket, sender);
 
