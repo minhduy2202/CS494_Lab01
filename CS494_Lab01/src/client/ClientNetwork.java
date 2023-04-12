@@ -1,8 +1,6 @@
 package client;
 
 import packet.Packet;
-import server.GameCore;
-import server.ServerHandler;
 import session.ClientSession;
 
 import java.io.IOException;
@@ -23,17 +21,17 @@ public class ClientNetwork implements Runnable {
     String serverIp;
     int serverPort;
 
-    ClientGameCore clientGameCore;
+//    ClientGameCore clientGameCore;
     private static ClientSession clientSession;
     public static ExecutorService workerPool = Executors.newCachedThreadPool();
 
-    ClientHandlerTmp clientHandlerTmp;
+    ClientHandler clientHandler;
 
-    public ClientNetwork(ClientGameCore gameCore, String serverIp, int serverPort){
+    public ClientNetwork( String serverIp, int serverPort){
         this.serverIp = serverIp;
         this.serverPort = serverPort;
 
-        this.clientGameCore = gameCore;
+//        this.clientGameCore = gameCore;
 
         try {
             mainSelector = Selector.open();
@@ -50,7 +48,7 @@ public class ClientNetwork implements Runnable {
         } catch (IOException e){
             e.printStackTrace();
         }
-        this.clientHandlerTmp = new ClientHandlerTmp(clientSession, clientGameCore);
+        this.clientHandler = new ClientHandler(clientSession);
     }
 
 
@@ -113,14 +111,18 @@ public class ClientNetwork implements Runnable {
         ClientSession clientSession = (ClientSession) key.attachment();
         clientSession.read(key);
 //        this.handlePacket(clientSession);
-        clientHandlerTmp.runHandler();
+        clientHandler.runHandler();
     }
 
-    synchronized public void handlePacket(ClientSession clientSession){
-        new Thread(new ClientHandler(clientSession, this.clientGameCore)).start();
-    }
+//    synchronized public void handlePacket(ClientSession clientSession){
+//        new Thread(new ClientHandler(clientSession, this.clientGameCore)).start();
+//    }
 
     public synchronized void sendPacket2Server(Packet packet) {
         clientSession.sendPacket(packet);
+    }
+
+    public ClientHandler getClientHandlerTmp(){
+        return this.clientHandler;
     }
 }
