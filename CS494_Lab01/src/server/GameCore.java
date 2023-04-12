@@ -249,7 +249,8 @@ public class GameCore implements Runnable {
     private Packet getMoveTurnResponsePacket(String result) {
         Packet moveTurnResultPacket = new Packet(Constants.SERVER_MOVE_TURN_PACKET_ID);
         moveTurnResultPacket.addKey(Constants.STATUS, result);
-        moveTurnResultPacket.addKey(Constants.CANDIDATE, this.clientSessions.get(curPlayerIdx).getUsername());
+        moveTurnResultPacket.addKey(Constants.CANDIDATE, this.clientSessions.get((curPlayerIdx - 1
+                + this.clientSessions.size())%this.clientSessions.size()).getUsername());
         return moveTurnResultPacket;
     }
 

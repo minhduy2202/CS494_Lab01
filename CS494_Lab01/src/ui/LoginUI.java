@@ -21,6 +21,10 @@ public class LoginUI extends JFrame implements PropertyChangeListener {
 
     ClientNetwork clientNetwork;
 
+    String prevErrorUsername = null;
+
+    String playerName = null;
+
     public LoginUI(ClientNetwork clientNetwork) {
         this.clientNetwork = clientNetwork;
         setTitle("Who Wants to Be a Millionaire");
@@ -69,15 +73,20 @@ public class LoginUI extends JFrame implements PropertyChangeListener {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String playerName = playerNameField.getText();
+                playerName = playerNameField.getText();
+
                 if (!playerName.isEmpty()) {
                     // Xử lý tên người chơi tại đây, chẳng hạn như chuyển sang màn hình chính của trò chơi
                     System.out.println("Player name: " + playerName);
 
-                    Packet packet = new Packet(CLIENT_LOGIN_PACKET_ID);
-                    packet.addKey(USERNAME, playerName);
-                    System.out.println("Data to send:" + packet.getData().toString());
-                    clientNetwork.sendPacket2Server(packet);
+                    if (Objects.equals(playerName, prevErrorUsername)){
+                        JOptionPane.showMessageDialog(null, "Please enter a different name", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        Packet packet = new Packet(CLIENT_LOGIN_PACKET_ID);
+                        packet.addKey(USERNAME, playerName);
+                        System.out.println("Data to send:" + packet.getData().toString());
+                        clientNetwork.sendPacket2Server(packet);
+                    }
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Please enter a name", "Error", JOptionPane.ERROR_MESSAGE);
@@ -100,7 +109,8 @@ public class LoginUI extends JFrame implements PropertyChangeListener {
             clientNetwork.getClientHandlerTmp().removePropertyChangeListener(this);
             splashScreen.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please enter a other name", "Error", JOptionPane.ERROR_MESSAGE);
+            prevErrorUsername = playerName;
+            JOptionPane.showMessageDialog(null, "Please enter a different name", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

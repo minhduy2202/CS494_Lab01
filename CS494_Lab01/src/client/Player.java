@@ -62,7 +62,7 @@ public class Player {
 
         Player p = (Player) o;
         if (!Objects.equals(username, p.username) || !Objects.equals(loginStatus, p.loginStatus) || numberOfPlayers != p.numberOfPlayers
-                || curQuestionIdx != p.curQuestionIdx || receivePacketID != p.receivePacketID){
+                || curQuestionIdx != p.curQuestionIdx || receivePacketID != p.receivePacketID || !Objects.equals(curCandidate, p.curCandidate)){
             return false;
         }
         return true;
