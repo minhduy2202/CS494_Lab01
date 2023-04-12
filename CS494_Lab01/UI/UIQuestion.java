@@ -65,8 +65,8 @@ public class UIQuestion extends JFrame {
 
     private Question1[] questions = {
             new Question1("What is the capital city of France?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
-            new Question1("What is the capital city of France?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
-            new Question1("What is the capital city of France?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
+            new Question1("What is the capital city of London?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
+            new Question1("What is the capital city of Italia?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
             new Question1("What is the capital city of France?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
             new Question1("What is the capital city of France?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
             new Question1("What is the capital city of France?", new String[]{"Paris", "Rome", "London", "Madrid"}, 0),
@@ -331,7 +331,11 @@ public class UIQuestion extends JFrame {
                         loadQuestion(currentQuestionIndex);
                         resetTimer();
                     }
-                } else {
+                    else{
+
+                    }
+                }
+                else {
                     JOptionPane.showMessageDialog(
                             UIQuestion.this,
                             "You have already used your skip option.",
@@ -463,7 +467,7 @@ public class UIQuestion extends JFrame {
                     youLoseUI.setVisible(true);
                 }
             } else {
-                resetTimer();
+                //resetTimer();
             }
         }
     }
