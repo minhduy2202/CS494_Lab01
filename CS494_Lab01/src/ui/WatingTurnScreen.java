@@ -65,19 +65,27 @@ public class WatingTurnScreen extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("Go to waiting handle");
         this.setPlayer((Player) evt.getNewValue());
         if (player.getReceivePacketID() == Constants.SERVER_LOSE_PACKET_ID){
+            System.out.println("You loose waiting turn");
             clientNetwork.getClientHandlerTmp().removePropertyChangeListener(this);
             this.closeSplashScreen();
-            YouLoseUI youLoseUI = new YouLoseUI();
+            YouLoseUI youLoseUI = new YouLoseUI(player);
             youLoseUI.setVisible(true);
         } else if (player.getReceivePacketID() == Constants.SERVER_QUESTION_PACKET_ID
             && Objects.equals(player.getCurCandidate(), player.getUsername())){
+            System.out.println("Go to change to UI question");
             UIQuestion uiQuestion = new UIQuestion(player, clientNetwork);
             clientNetwork.getClientHandlerTmp().addPropertyChangeListener(uiQuestion);
             clientNetwork.getClientHandlerTmp().removePropertyChangeListener(this);
             this.closeSplashScreen();
             uiQuestion.setVisible(true);
+        } else if (player.getReceivePacketID() == Constants.SERVER_WIN_PACKET_ID){
+            clientNetwork.getClientHandlerTmp().removePropertyChangeListener(this);
+            this.closeSplashScreen();
+            YouWinUI youWinUI = new YouWinUI(player);
+            youWinUI.setVisible(true);
         }
     }
 

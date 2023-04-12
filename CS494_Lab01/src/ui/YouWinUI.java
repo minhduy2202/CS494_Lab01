@@ -1,5 +1,7 @@
 package ui;
 
+import client.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,7 @@ public class YouWinUI extends JFrame {
     private JLabel winLabel;
     private ImagePanel mainPanel;
 
-    public YouWinUI() {
+    public YouWinUI(Player player) {
         // Set up the frame
         setTitle("Win Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,20 +23,10 @@ public class YouWinUI extends JFrame {
         setContentPane(mainPanel);
 
         // Set up the win label
-        winLabel = new JLabel("Congratulations! You have won the game!");
+        winLabel = new JLabel("Congratulations " + player.getUsername() + "! You have won the game!");
         winLabel.setFont(new Font("Arial", Font.BOLD, 40));
         winLabel.setHorizontalAlignment(JLabel.CENTER);
         winLabel.setForeground(Color.GREEN);
         mainPanel.add(winLabel, BorderLayout.CENTER);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                YouWinUI youWinUI = new YouWinUI();
-                youWinUI.setVisible(true);
-            }
-        });
     }
 }
