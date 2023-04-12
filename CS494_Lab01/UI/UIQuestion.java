@@ -425,52 +425,80 @@ public class UIQuestion extends JFrame {
 
     private class AnswerButtonListener implements ActionListener {
         private int selectedAnswerIndex;
+        private String choice;
 
         public AnswerButtonListener(int selectedAnswerIndex) {
             this.selectedAnswerIndex = selectedAnswerIndex;
+            if(selectedAnswerIndex == 0) choice = "A";
+            if(selectedAnswerIndex == 1) choice = "B";
+            if(selectedAnswerIndex == 2) choice = "C";
+            if(selectedAnswerIndex == 3) choice = "D";
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             int confirmResult = JOptionPane.showConfirmDialog(
                     null,
-                    "Are you sure you want to choose this answer?",
+                    "Are you sure you want to choose answer " + choice + "?",
                     "Confirm Answer",
                     JOptionPane.YES_NO_OPTION
             );
 
             if (confirmResult == JOptionPane.YES_OPTION) {
                 timer.stop();
-                boolean isCorrect = checkAnswer(selectedAnswerIndex);
-                if (isCorrect) {
-                    prizeWon = Math.min(currentQuestionIndex, PRIZES.length - 1);
-                    prizeLabel.setText("Prize: $" + PRIZES[prizeWon]);
-                    currentQuestionIndex++;
+                JButton selectedButton = (JButton) e.getSource();
+                selectedButton.setFont(selectedButton.getFont().deriveFont(Font.BOLD));
 
-                    if (currentQuestionIndex >= TOTAL_QUESTIONS) {
-//                        JOptionPane.showMessageDialog(null, "Congratulations! You have won $" + PRIZES[prizeWon] + "!", "You Win", JOptionPane.INFORMATION_MESSAGE);
-                        UIQuestion.this.dispose();
 
-                        YouWinUI youWinUI = new YouWinUI();
-                        youWinUI.setVisible(true);
-                        //System.exit(0);
-                    } else {
-                        loadQuestion(currentQuestionIndex);
-                        resetTimer();
+
+                // Disable all answer buttons
+                answerAButton.setEnabled(false);
+                answerBButton.setEnabled(false);
+                answerCButton.setEnabled(false);
+                answerDButton.setEnabled(false);
+
+                // Wait for 2 seconds before checking the answer
+                Timer delayTimer = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent event) {
+
+                        boolean isCorrect = checkAnswer(selectedAnswerIndex);
+                        if (isCorrect) {
+                            prizeWon = Math.min(currentQuestionIndex, PRIZES.length - 1);
+                            prizeLabel.setText("Prize: $" + PRIZES[prizeWon]);
+                            currentQuestionIndex++;
+
+                            if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+                                UIQuestion.this.dispose();
+
+                                YouWinUI youWinUI = new YouWinUI();
+                                youWinUI.setVisible(true);
+                            } else {
+                                loadQuestion(currentQuestionIndex);
+                                resetTimer();
+                            }
+                        } else {
+                            UIQuestion.this.dispose();
+
+                            YouLoseUI youLoseUI = new YouLoseUI();
+                            youLoseUI.setVisible(true);
+                        }
+
+                        // Re-enable all answer buttons and reset font
+                        answerAButton.setEnabled(true);
+                        answerBButton.setEnabled(true);
+                        answerCButton.setEnabled(true);
+                        answerDButton.setEnabled(true);
+                        selectedButton.setFont(selectedButton.getFont().deriveFont(Font.PLAIN));
                     }
-                } else {
-//                    JOptionPane.showMessageDialog(null, "Incorrect answer. You lost!", "You Lose", JOptionPane.INFORMATION_MESSAGE);
-//                    System.exit(0);
-                    UIQuestion.this.dispose();
+                });
 
-                    YouLoseUI youLoseUI = new YouLoseUI();
-                    youLoseUI.setVisible(true);
-                }
-            } else {
-                //resetTimer();
+                delayTimer.setRepeats(false);
+                delayTimer.start();
             }
         }
     }
+
 
     private boolean checkAnswer(int selectedAnswerIndex) {
         return questions[currentQuestionIndex].getCorrectAnswerIndex() == selectedAnswerIndex;
